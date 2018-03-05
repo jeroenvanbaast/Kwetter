@@ -7,7 +7,9 @@ package dao;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Map;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -61,4 +63,5 @@ public abstract class AbstractDao<T> implements Dao<T> {
         return this.entityManager.find(entityType, id);
     }
 
+    
 }

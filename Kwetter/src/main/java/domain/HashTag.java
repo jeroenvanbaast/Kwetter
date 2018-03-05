@@ -36,6 +36,7 @@ public class HashTag implements Serializable{
         this.hashTagText = hashTagText;
     }
 
+    // <editor-fold defaultstate="collapsed" desc="getters en setters">
     public long getId() {
         return id;
     }
@@ -52,5 +53,5 @@ public class HashTag implements Serializable{
         this.hashTagText = hashTagText;
     }
     
-    
+    // </editor-fold>
 }

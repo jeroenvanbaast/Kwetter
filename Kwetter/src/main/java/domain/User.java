@@ -40,6 +40,7 @@ public class User implements Serializable{
         this.profile = new Profile();
     }
 
+    // <editor-fold defaultstate="collapsed" desc="getters en setters">
     public String getUserName() {
         return userName;
     }
@@ -71,5 +72,5 @@ public class User implements Serializable{
     public void setId(long id) {
         this.id = id;
     }
-
+// </editor-fold>
 }

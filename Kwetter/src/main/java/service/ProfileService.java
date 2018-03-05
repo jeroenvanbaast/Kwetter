@@ -7,11 +7,13 @@ package service;
 
 import dao.ProfileDao;
 import domain.Profile;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author Jeroen
  */
+@Stateless
 public class ProfileService extends ProfileDao{
     
 

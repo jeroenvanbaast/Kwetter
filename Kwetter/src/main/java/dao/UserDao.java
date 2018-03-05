@@ -6,11 +6,13 @@
 package dao;
 
 import domain.User;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author Jeroen
  */
+@Stateless
 public class UserDao extends AbstractDao<User>{
 
     

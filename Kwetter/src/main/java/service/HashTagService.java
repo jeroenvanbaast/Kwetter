@@ -7,11 +7,13 @@ package service;
 
 import dao.HashTagDao;
 import domain.HashTag;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author Jeroen
  */
+@Stateless
 public class HashTagService extends HashTagDao{
     
 

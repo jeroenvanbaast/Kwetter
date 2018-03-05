@@ -6,6 +6,8 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 
@@ -20,6 +22,7 @@ public class Kwet implements Serializable {
     @GeneratedValue
     private long id;
     
+    private Date placedDate;
     private String message;
     @ManyToMany
     private List<HashTag> hashTags;
@@ -27,13 +30,17 @@ public class Kwet implements Serializable {
     private List<Profile> tagged;
 
     public Kwet(){
-    
+        hashTags = new ArrayList();
+        tagged = new ArrayList();
     }
     
     public Kwet(String message){
         this.message = message;
+        hashTags = new ArrayList();
+        tagged = new ArrayList();
     }
     
+    // <editor-fold defaultstate="collapsed" desc="getters en setters">
     public String getMessage() {
         return message;
     }
@@ -62,9 +69,17 @@ public class Kwet implements Serializable {
         return id;
     }
 
+    public Date getPlacedDate() {
+        return placedDate;
+    }
+
+    public void setPlacedDate(Date placedDate) {
+        this.placedDate = placedDate;
+    }
+
     public void setId(long id) {
         this.id = id;
     }
-    
+    // </editor-fold>
     
 }

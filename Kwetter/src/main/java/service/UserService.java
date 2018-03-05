@@ -7,11 +7,13 @@ package service;
 
 import dao.UserDao;
 import domain.User;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author Jeroen
  */
+@Stateless
 public class UserService extends UserDao{
 
     

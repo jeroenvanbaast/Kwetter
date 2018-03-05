@@ -28,10 +28,16 @@ public class Profile implements Serializable{
     private long id;
     
     private String name;
+    private Boolean publicName;
     private File profilePicture;
+    private Boolean publicProfilePicture;
     private String bio;
+    private Boolean publicBio;
     private String locatie;
+    private Boolean publicLocatie;
     private String website;
+    private Boolean publicWebsite;
+    
     @OneToMany
     private List<Kwet> kwets;
     @ManyToMany(mappedBy = "tagged")
@@ -42,10 +48,10 @@ public class Profile implements Serializable{
     public Profile() {
         this.kwets = new ArrayList();
         this.heartedKwets = new ArrayList();
+        this.following = new ArrayList();
     }
 
-    public Kwet placeKwet(String message) {
-        Kwet kwet = new Kwet(message);
+    public Kwet placeKwet(Kwet kwet) {
         this.kwets.add(kwet);
         return kwet;
     }
@@ -70,6 +76,7 @@ public class Profile implements Serializable{
         this.kwets.remove(kwet);
     }
     
+    // <editor-fold defaultstate="collapsed" desc="getters en setters">
     public long getId() {
         return id;
     }
@@ -141,7 +148,46 @@ public class Profile implements Serializable{
     public void setFollowing(List<Profile> following) {
         this.following = following;
     }
-    
-    
+
+    public Boolean getPublicName() {
+        return publicName;
+    }
+
+    public void setPublicName(Boolean publicName) {
+        this.publicName = publicName;
+    }
+
+    public Boolean getPublicProfilePicture() {
+        return publicProfilePicture;
+    }
+
+    public void setPublicProfilePicture(Boolean publicProfilePicture) {
+        this.publicProfilePicture = publicProfilePicture;
+    }
+
+    public Boolean getPublicBio() {
+        return publicBio;
+    }
+
+    public void setPublicBio(Boolean publicBio) {
+        this.publicBio = publicBio;
+    }
+
+    public Boolean getPublicLocatie() {
+        return publicLocatie;
+    }
+
+    public void setPublicLocatie(Boolean publicLocatie) {
+        this.publicLocatie = publicLocatie;
+    }
+
+    public Boolean getPublicWebsite() {
+        return publicWebsite;
+    }
+
+    public void setPublicWebsite(Boolean publicWebsite) {
+        this.publicWebsite = publicWebsite;
+    }
+    // </editor-fold>
 
 }

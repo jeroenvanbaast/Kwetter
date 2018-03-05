@@ -6,11 +6,13 @@
 package dao;
 
 import domain.HashTag;
+import javax.ejb.Stateless;
 
 /**
  *
  * @author Jeroen
  */
+@Stateless
 public class HashTagDao extends AbstractDao<HashTag>{
     
     
