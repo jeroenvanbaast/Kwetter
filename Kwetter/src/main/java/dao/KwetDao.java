@@ -22,12 +22,6 @@ public class KwetDao extends AbstractDao<Kwet>{
      return entityManager.createNamedQuery("kwet.findByMessage", Kwet.class)
              .setParameter("message", message).getResultList();
         
-     }
-     
-//      public List<Kwet> findByPoster(String message){
-//     return entityManager.createNamedQuery("SELECT k FROM Kwet k WHERE k.message = :message", Kwet.class)
-//             .setParameter("message", message).getResultList();
-//        
-//     }
+     }   
     
 }
