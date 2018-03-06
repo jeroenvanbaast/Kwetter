@@ -35,7 +35,7 @@ public class StartUp {
         profile.placeKwet(kwet);
         profileService.create(profile);
         kwetService.create(kwet);
-        List<Kwet> test = kwetService.findByPoster(profile);
+        List<Kwet> test = kwetService.findByPoster("probeersel");
         int tint = 1;
     }
 }

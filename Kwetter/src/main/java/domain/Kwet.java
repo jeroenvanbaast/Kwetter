@@ -16,6 +16,8 @@ import javax.persistence.*;
  * @author Jeroen
  */
 @Entity
+@NamedQueries({
+@NamedQuery (name = "kwet.findByMessage", query = "SELECT k FROM Kwet k WHERE k.message = :message")})
 public class Kwet implements Serializable {
     
     @Id
