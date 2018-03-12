@@ -7,7 +7,9 @@ package service;
 
 import dao.KwetDao;
 import domain.Kwet;
+import java.util.ArrayList;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 /**
  *
@@ -15,6 +17,10 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class KwetService extends KwetDao{
-
     
+    
+        public ArrayList<Kwet> getAll() {
+        Query query = this.entityManager.createQuery("SELECT k FROM Kwet k");
+        return  new ArrayList<>(query.getResultList());
+    }
 }

@@ -7,7 +7,9 @@ package service;
 
 import dao.UserDao;
 import domain.User;
+import java.util.ArrayList;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 /**
  *
@@ -16,5 +18,8 @@ import javax.ejb.Stateless;
 @Stateless
 public class UserService extends UserDao{
 
-    
+      public ArrayList<User> getAll() {
+        Query query = this.entityManager.createQuery("SELECT u FROM User u");
+        return new ArrayList<>(query.getResultList());
+    }
 }

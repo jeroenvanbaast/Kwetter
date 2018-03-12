@@ -7,6 +7,7 @@ package dao;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.ejb.Stateless;
@@ -63,5 +64,4 @@ public abstract class AbstractDao<T> implements Dao<T> {
         return this.entityManager.find(entityType, id);
     }
 
-    
 }

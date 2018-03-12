@@ -24,18 +24,31 @@ public class StartUp {
     private KwetService kwetService;
     @Inject
     private ProfileService profileService;
+    @Inject
+    private UserService userService;
+    @Inject
+    private HashTagService hashTagService;
     
     public StartUp() {
     }
 
     @PostConstruct
     public void test() {
+        User user = new User();
         Profile profile = new Profile();
-        Kwet kwet = new Kwet("probeersel");
+        profile.setName("coolenaam");
+        Kwet kwet = new Kwet("test");
+        Kwet kwet2 = new Kwet("test2");
+        HashTag hashTag = new HashTag();
+        kwet.getHashTags().add(hashTag);
         profile.placeKwet(kwet);
+        profile.placeKwet(kwet2);
+        user.setProfile(profile);
+        userService.create(user);
+        hashTagService.create(hashTag);
         profileService.create(profile);
         kwetService.create(kwet);
-        List<Kwet> test = kwetService.findByMessage("probeersel");
-        int tint = 1;
+        kwetService.create(kwet2);
+        List<Kwet> test = kwetService.findByMessage("test");
     }
 }

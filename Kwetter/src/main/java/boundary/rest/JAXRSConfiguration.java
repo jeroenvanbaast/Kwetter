@@ -3,18 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dao;
+package boundary.rest;
 
-import java.util.List;
-import java.util.Map;
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
 
 /**
  *
  * @author Jeroen
  */
-public interface Dao<T> {
-      T create(T entity);
-      T update(T entity);
-      void remove(T entity);
-      T getById(long id);
+@ApplicationPath("api")
+public class JAXRSConfiguration extends Application{
+    
 }

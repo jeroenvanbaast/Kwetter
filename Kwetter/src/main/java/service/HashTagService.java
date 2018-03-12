@@ -7,15 +7,19 @@ package service;
 
 import dao.HashTagDao;
 import domain.HashTag;
+import java.util.ArrayList;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 /**
  *
  * @author Jeroen
  */
 @Stateless
-public class HashTagService extends HashTagDao{
-    
+public class HashTagService extends HashTagDao {
 
-    
+    public ArrayList<HashTag> getAll() {
+        Query query = this.entityManager.createQuery("SELECT h FROM HashTag h");
+        return new ArrayList<>(query.getResultList());
+    }
 }

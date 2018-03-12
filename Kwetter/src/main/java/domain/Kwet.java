@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -18,6 +19,8 @@ import javax.persistence.*;
 @Entity
 @NamedQueries({
 @NamedQuery (name = "kwet.findByMessage", query = "SELECT k FROM Kwet k WHERE k.message = :message")})
+
+@XmlRootElement
 public class Kwet implements Serializable {
     
     @Id

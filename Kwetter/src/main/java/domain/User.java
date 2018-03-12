@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -19,6 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="users")
+@XmlRootElement
 public class User implements Serializable{
 
     @Id
@@ -26,7 +28,7 @@ public class User implements Serializable{
     private long id;
     
     private String userName;
-    private String password;
+    private String passwordHash;
     @OneToOne
     private Profile profile;
 
@@ -36,7 +38,7 @@ public class User implements Serializable{
 
     public User(String userName, String password) {
         this.userName = userName;
-        this.password = password;
+        this.passwordHash = password;
         this.profile = new Profile();
     }
 
@@ -49,12 +51,8 @@ public class User implements Serializable{
         this.userName = userName;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     public Profile getProfile() {
