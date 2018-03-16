@@ -5,28 +5,33 @@
  */
 package Rest;
 
-import domain.HashTag;
+import domain.Kwet;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.expect;
-import io.restassured.path.json.JsonPath;
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
-import java.util.List;
-import static org.hamcrest.core.IsEqual.equalTo;
+import static io.restassured.RestAssured.given;
 import org.junit.After;
 import org.junit.AfterClass;
+import io.restassured.path.json.JsonPath;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+import java.util.ArrayList;
+import java.util.List;
+import static javax.ws.rs.core.HttpHeaders.CONTENT_TYPE;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import static org.hamcrest.core.IsEqual.equalTo;
+import org.junit.Assert;
 
 /**
  *
  * @author Jeroen
  */
-public class restHashTagTest {
-
-    public restHashTagTest() {
+public class RestKwetT {
+    
+    public RestKwetT() {
     }
 
     @BeforeClass
@@ -51,29 +56,29 @@ public class restHashTagTest {
     // @Test
     // public void hello() {}
     @Test
-    public void canGethashtags() {
+    public void canGetKwets() {
         expect().
-                body("get(0).id", equalTo(2)).
+                body("get(0).id", equalTo(1)).
                 when().
-                get("http://localhost:8080/Kwetter/api/hashtags");
+                get("http://localhost:8080/Kwetter/api/kwets");
     }
-
+    
     @Test
-    public void canGethashtagsSize() {
-        RestAssured.baseURI = "http://localhost:8080/Kwetter/api/hashtags";
-        RequestSpecification httpRequest = RestAssured.given();
-        Response response = httpRequest.get("");
-
+    public void canGetKwetsSize(){
+    	RestAssured.baseURI = "http://localhost:8080/Kwetter/api/kwets";
+	RequestSpecification httpRequest = RestAssured.given();
+	Response response = httpRequest.get("");
+        
         JsonPath jsaonPathEvaluator = response.jsonPath();
-        List<HashTag> hashtags = jsaonPathEvaluator.getList("hashtags", HashTag.class);
-        assertEquals(hashtags.size(), 1);
+        List<Kwet> kwets = jsaonPathEvaluator.getList("kwets", Kwet.class);
+        assertEquals(kwets.size(), 2);
     }
 
     @Test
-    public void canGethashtagsById() {
-        RestAssured.get("http://localhost:8080/Kwetter/api/hashtags/1")
+    public void canGetKwetById() {
+        RestAssured.get("http://localhost:8080/Kwetter/api/kwets/1")
                 .then()
                 .assertThat().
-                body("id", equalTo(2));
+                body("id", equalTo(1));
     }
 }

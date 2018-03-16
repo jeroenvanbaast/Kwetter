@@ -16,10 +16,13 @@ import javax.persistence.Query;
  * @author Jeroen
  */
 @Stateless
-public class UserService extends UserDao{
+public class UserService extends UserDao
+{
 
-      public ArrayList<User> getAll() {
+    public ArrayList<User> getAll()
+    {
         Query query = this.entityManager.createQuery("SELECT u FROM User u");
         return new ArrayList<>(query.getResultList());
     }
+
 }

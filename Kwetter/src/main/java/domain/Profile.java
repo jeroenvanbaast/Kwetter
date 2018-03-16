@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -41,11 +42,11 @@ public class Profile implements Serializable{
     private String website;
     private Boolean publicWebsite;
     
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Kwet> kwets;
-    @ManyToMany(mappedBy = "tagged")
+    @ManyToMany(mappedBy = "tagged", cascade = CascadeType.ALL)
     private List<Kwet> heartedKwets;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Profile> following;
     
     public Profile() {

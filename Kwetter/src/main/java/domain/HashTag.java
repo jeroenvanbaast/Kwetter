@@ -7,6 +7,7 @@ package domain;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +28,7 @@ public class HashTag implements Serializable{
     private long id;
     
     private String hashTagText;
-    @ManyToMany(mappedBy = "hashTags")
+    @ManyToMany(mappedBy = "hashTags", cascade = CascadeType.ALL)
     private List<Kwet> kwets;
     
     public HashTag() {

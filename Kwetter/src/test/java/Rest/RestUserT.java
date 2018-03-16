@@ -13,36 +13,48 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import java.util.List;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static io.restassured.RestAssured.put;
+import static io.restassured.RestAssured.get;
+import javax.inject.Inject;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import service.UserService;
 
 /**
  *
  * @author Jeroen
  */
-public class restUserTest {
+public class RestUserT
+{
 
-    public restUserTest() {
+    List<User> users;
+    public RestUserT()
+    {
+
     }
 
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass()
+    {
     }
 
     @AfterClass
-    public static void tearDownClass() {
+    public static void tearDownClass()
+    {
     }
 
     @Before
-    public void setUp() {
+    public void setUp()
+    {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
     }
 
     // TODO add test methods here.
@@ -51,33 +63,35 @@ public class restUserTest {
     // @Test
     // public void hello() {}
     @Test
-    public void canGetUsers() {
-        expect().
-                body("get(0).id", equalTo(2)).
-                when().
-                get("http://localhost:8080/Kwetter/api/users");
-    }
-
-    @Test
-    public void canGetUsersSize() {
+    public void canPutUser()
+    {
+        io.restassured.RestAssured.put("http://localhost:8080/Kwetter/api/users?userName=test&passwordHash=test");
+        
         RestAssured.baseURI = "http://localhost:8080/Kwetter/api/users";
         RequestSpecification httpRequest = RestAssured.given();
         Response response = httpRequest.get("");
 
         JsonPath jsaonPathEvaluator = response.jsonPath();
-        List<User> users = jsaonPathEvaluator.getList("users", User.class);
-        int size = 0;
-        if(users != null){
-            size = users.size();
-        }
-        assertEquals(size, 1);
+        users = jsaonPathEvaluator.getList("", User.class);
+        assertEquals(users.get(0).getUserName(), "test");
     }
 
     @Test
-    public void canGetUsersById() {
-        RestAssured.get("http://localhost:8080/Kwetter/api/users/1")
+    public void canGetUsers()
+    {
+        expect().
+                body("get(0).id", equalTo(5)).
+                when().
+                get("http://localhost:8080/Kwetter/api/users");
+    }
+
+    @Test
+    public void canGetUsersById()
+    {
+        RestAssured.get("http://localhost:8080/Kwetter/api/users/5")
                 .then()
                 .assertThat().
-                body("id", equalTo(2));
+                body("id", equalTo(5));
     }
+
 }

@@ -6,10 +6,13 @@
 package domain;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -19,6 +22,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Jeroen
  */
 @Entity
+@NamedQueries({
+@NamedQuery (name = "user.findByUserName", query = "SELECT u FROM User u WHERE u.userName = :userName")})
 @Table(name="users")
 @XmlRootElement
 public class User implements Serializable{
@@ -29,7 +34,7 @@ public class User implements Serializable{
     
     private String userName;
     private String passwordHash;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Profile profile;
 
     public User() {

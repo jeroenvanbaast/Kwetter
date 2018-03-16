@@ -34,21 +34,16 @@ public class StartUp {
 
     @PostConstruct
     public void test() {
-        User user = new User();
-        Profile profile = new Profile();
-        profile.setName("coolenaam");
+        User user = new User("test", "test");
+        
         Kwet kwet = new Kwet("test");
-        Kwet kwet2 = new Kwet("test2");
-        HashTag hashTag = new HashTag();
-        kwet.getHashTags().add(hashTag);
-        profile.placeKwet(kwet);
-        profile.placeKwet(kwet2);
-        user.setProfile(profile);
-        userService.create(user);
-        hashTagService.create(hashTag);
-        profileService.create(profile);
         kwetService.create(kwet);
+        Kwet kwet2 = new Kwet("test2");
         kwetService.create(kwet2);
-        List<Kwet> test = kwetService.findByMessage("test");
+        Profile profile = new Profile();
+        profile.setName("test");
+        profileService.create(profile);
+        HashTag hashTag = new HashTag("test");
+        hashTagService.create(hashTag);
     }
 }

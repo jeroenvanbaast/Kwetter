@@ -29,9 +29,9 @@ public class Kwet implements Serializable {
     
     private Date placedDate;
     private String message;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<HashTag> hashTags;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Profile> tagged;
 
     public Kwet(){

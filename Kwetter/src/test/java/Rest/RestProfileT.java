@@ -25,9 +25,9 @@ import static org.junit.Assert.*;
  *
  * @author Jeroen
  */
-public class restProfileTest {
+public class RestProfileT {
 
-    public restProfileTest() {
+    public RestProfileT() {
     }
 
     @BeforeClass
@@ -54,7 +54,7 @@ public class restProfileTest {
     @Test
     public void canGetProfiles() {
         expect().
-                body("get(0).id", equalTo(2)).
+                body("get(0).id", equalTo(3)).
                 when().
                 get("http://localhost:8080/Kwetter/api/profiles");
     }
@@ -72,9 +72,9 @@ public class restProfileTest {
 
     @Test
     public void canGetProfilesById() {
-        RestAssured.get("http://localhost:8080/Kwetter/api/profiles/1")
+        RestAssured.get("http://localhost:8080/Kwetter/api/profiles/3")
                 .then()
                 .assertThat().
-                body("id", equalTo(2));
+                body("id", equalTo(3));
     }
 }
