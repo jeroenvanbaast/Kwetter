@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Kwet implements Serializable {
     
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     
     private Date placedDate;

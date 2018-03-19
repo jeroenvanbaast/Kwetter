@@ -9,7 +9,9 @@ import domain.User;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -24,32 +26,44 @@ import service.UserService;
  */
 @Path("users")
 @Stateless
-public class UserResource
-{
+public class UserResource {
 
     @Inject
     private UserService service;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<User> getAll()
-    {
+    public List<User> getAll() {
         return service.getAll();
     }
 
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public User getUser(@QueryParam("id") long id)
-    {
+    public User getUser(@PathParam("id") long id) {
         User user = service.getById(id);
         return user;
     }
 
     @PUT
-    public void putUser(@QueryParam("userName") String userName, @QueryParam("passwordHash") String passwordHash)
-    {
-        User user = new User(userName,passwordHash);
+    public void putUser(@QueryParam("userName") String userName, @QueryParam("passwordHash") String passwordHash) {
+        User user = new User(userName, passwordHash);
         service.create(user);
+    }
+
+    @POST
+    @Path("{id}")
+    public void updateUser(@PathParam("id") long id, @QueryParam("userName") String userName, @QueryParam("password") String password) {
+        User user = service.getById(id);
+        user.setUserName(userName);
+        user.setPasswordHash(password);
+        service.update(user);
+    }
+
+    @javax.ws.rs.DELETE
+    @Path("{id}")
+    public void deleteUser(@PathParam("id") long id) {
+        User user = service.getById(id);
+        service.remove(user);
     }
 }

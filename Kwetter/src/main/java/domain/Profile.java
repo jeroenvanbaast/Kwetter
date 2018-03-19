@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Profile implements Serializable{
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
     
     private String name;
@@ -53,6 +53,12 @@ public class Profile implements Serializable{
         this.kwets = new ArrayList();
         this.heartedKwets = new ArrayList();
         this.following = new ArrayList();
+    }
+    
+    public Profile(String name, String bio){
+        this();
+        this.name = name;
+        this.bio = bio;        
     }
 
     public Kwet placeKwet(Kwet kwet) {

@@ -9,10 +9,14 @@ import domain.Profile;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import service.ProfileService;
 
@@ -39,5 +43,28 @@ public class ProfileResource {
     public Profile getStudent(@PathParam("id") long id) {
         Profile profile = service.getById(id);
         return profile;
+    }
+
+    @PUT
+    public void putProfile(@QueryParam("name") String name, @QueryParam("bio") String bio) {
+        Profile profile = new Profile(name, bio);
+        service.create(profile);
+    }
+
+    @POST
+    @Path("{id}")
+    public void updateProfile(@PathParam("id") long id, @QueryParam("name") String name, @QueryParam("bio") String bio, @QueryParam("locatie") String locatie, @QueryParam("website") String website) {
+        Profile profile = service.getById(id);
+        profile.setName(name);
+        profile.setBio(bio);
+        profile.setLocatie(locatie);
+        profile.setWebsite(website);
+        service.update(profile);
+    }
+
+    @DELETE
+    @Path("{id}")
+    public void deleteProfile(@PathParam("id") long id) {
+        service.remove(service.getById(id));
     }
 }

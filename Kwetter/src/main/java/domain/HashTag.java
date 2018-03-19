@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class HashTag implements Serializable{
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
     
     private String hashTagText;

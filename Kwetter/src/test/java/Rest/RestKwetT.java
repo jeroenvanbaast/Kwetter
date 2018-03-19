@@ -7,8 +7,10 @@ package Rest;
 
 import domain.Kwet;
 import io.restassured.RestAssured;
+import static io.restassured.RestAssured.delete;
 import static io.restassured.RestAssured.expect;
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.post;
 import org.junit.After;
 import org.junit.AfterClass;
 import io.restassured.path.json.JsonPath;
@@ -19,16 +21,18 @@ import io.restassured.specification.RequestSpecification;
 import java.util.ArrayList;
 import java.util.List;
 import static javax.ws.rs.core.HttpHeaders.CONTENT_TYPE;
+import static org.hamcrest.core.IsEqual.equalTo;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import static org.hamcrest.core.IsEqual.equalTo;
 import org.junit.Assert;
+import org.junit.FixMethodOrder;
 
 /**
  *
  * @author Jeroen
  */
+@FixMethodOrder(org.junit.runners.MethodSorters.NAME_ASCENDING)
 public class RestKwetT {
     
     public RestKwetT() {
@@ -55,30 +59,29 @@ public class RestKwetT {
     //
     // @Test
     // public void hello() {}
-    @Test
-    public void canGetKwets() {
-        expect().
-                body("get(0).id", equalTo(1)).
-                when().
-                get("http://localhost:8080/Kwetter/api/kwets");
-    }
-    
-    @Test
-    public void canGetKwetsSize(){
-    	RestAssured.baseURI = "http://localhost:8080/Kwetter/api/kwets";
-	RequestSpecification httpRequest = RestAssured.given();
-	Response response = httpRequest.get("");
-        
-        JsonPath jsaonPathEvaluator = response.jsonPath();
-        List<Kwet> kwets = jsaonPathEvaluator.getList("kwets", Kwet.class);
-        assertEquals(kwets.size(), 2);
+   @Test
+    public void canPutProfile() {
+        io.restassured.RestAssured.put("http://localhost:8080/Kwetter/api/kwets?message=testMessage");
+         RestAssured.get("http://localhost:8080/Kwetter/api/kwets/1")
+                .then()
+                .assertThat().
+                body("message", equalTo("testMessage"));
     }
 
     @Test
-    public void canGetKwetById() {
-        RestAssured.get("http://localhost:8080/Kwetter/api/kwets/1")
+    public void canUpdateProfile() {
+        post("http://localhost:8080/Kwetter/api/kwets/1?message=updateTest");
+         RestAssured.get("http://localhost:8080/Kwetter/api/kwets/1")
                 .then()
                 .assertThat().
-                body("id", equalTo(1));
+                body("message", equalTo("updateTest"));
     }
+
+    @Test
+    public void delteProfile() {
+        delete("http://localhost:8080/Kwetter/api/kwets/1");
+    }
+
+
+   
 }

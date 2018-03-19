@@ -8,23 +8,27 @@ package Rest;
 import domain.Kwet;
 import domain.Profile;
 import io.restassured.RestAssured;
+import static io.restassured.RestAssured.delete;
 import static io.restassured.RestAssured.expect;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import java.util.List;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static io.restassured.RestAssured.post;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.FixMethodOrder;
 
 /**
  *
  * @author Jeroen
  */
+@FixMethodOrder(org.junit.runners.MethodSorters.NAME_ASCENDING)
 public class RestProfileT {
 
     public RestProfileT() {
@@ -52,29 +56,26 @@ public class RestProfileT {
     // @Test
     // public void hello() {}
     @Test
-    public void canGetProfiles() {
-        expect().
-                body("get(0).id", equalTo(3)).
-                when().
-                get("http://localhost:8080/Kwetter/api/profiles");
-    }
-
-    @Test
-    public void canGetProfilesSize() {
-        RestAssured.baseURI = "http://localhost:8080/Kwetter/api/profiles";
-        RequestSpecification httpRequest = RestAssured.given();
-        Response response = httpRequest.get("");
-
-        JsonPath jsaonPathEvaluator = response.jsonPath();
-        List<Profile> profiles = jsaonPathEvaluator.getList("profiles", Profile.class);
-        assertEquals(profiles.size(), 1);
-    }
-
-    @Test
-    public void canGetProfilesById() {
-        RestAssured.get("http://localhost:8080/Kwetter/api/profiles/3")
+    public void canPutProfile() {
+        io.restassured.RestAssured.put("http://localhost:8080/Kwetter/api/profiles?name=testNaam&bio=testBio");
+         RestAssured.get("http://localhost:8080/Kwetter/api/profiles/1")
                 .then()
                 .assertThat().
-                body("id", equalTo(3));
+                body("name", equalTo("testNaam"));
     }
+
+    @Test
+    public void canUpdateProfile() {
+        post("http://localhost:8080/Kwetter/api/profiles/1?name=updateTest&bio=testBio&locatie=locatie&website=website");
+         RestAssured.get("http://localhost:8080/Kwetter/api/profiles/1")
+                .then()
+                .assertThat().
+                body("name", equalTo("updateTest"));
+    }
+
+    @Test
+    public void delteProfile() {
+        delete("http://localhost:8080/Kwetter/api/profiles/1");
+    }
+
 }

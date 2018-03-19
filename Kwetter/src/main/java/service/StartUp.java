@@ -34,16 +34,6 @@ public class StartUp {
 
     @PostConstruct
     public void test() {
-        User user = new User("test", "test");
-        
-        Kwet kwet = new Kwet("test");
-        kwetService.create(kwet);
-        Kwet kwet2 = new Kwet("test2");
-        kwetService.create(kwet2);
-        Profile profile = new Profile();
-        profile.setName("test");
-        profileService.create(profile);
-        HashTag hashTag = new HashTag("test");
-        hashTagService.create(hashTag);
+  
     }
 }
