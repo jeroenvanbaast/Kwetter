@@ -17,6 +17,7 @@ import static io.restassured.RestAssured.put;
 import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.post;
 import static io.restassured.RestAssured.delete;
+import static io.restassured.RestAssured.given;
 import javax.inject.Inject;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -82,6 +83,8 @@ public class RestUserT {
     @Test
     public void deleteUser() {
         delete("http://localhost:8080/Kwetter/api/users/1");
+        given().when().get("http://localhost:8080/Kwetter/api/users/1")
+                .then().statusCode(204);
     }
 
 }

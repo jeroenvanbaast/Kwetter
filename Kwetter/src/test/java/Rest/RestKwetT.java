@@ -34,7 +34,7 @@ import org.junit.FixMethodOrder;
  */
 @FixMethodOrder(org.junit.runners.MethodSorters.NAME_ASCENDING)
 public class RestKwetT {
-    
+
     public RestKwetT() {
     }
 
@@ -59,29 +59,29 @@ public class RestKwetT {
     //
     // @Test
     // public void hello() {}
-   @Test
-    public void canPutProfile() {
+    @Test
+    public void canPutKwet() {
         io.restassured.RestAssured.put("http://localhost:8080/Kwetter/api/kwets?message=testMessage");
-         RestAssured.get("http://localhost:8080/Kwetter/api/kwets/1")
+        RestAssured.get("http://localhost:8080/Kwetter/api/kwets/1")
                 .then()
                 .assertThat().
                 body("message", equalTo("testMessage"));
     }
 
     @Test
-    public void canUpdateProfile() {
+    public void canUpdateKwet() {
         post("http://localhost:8080/Kwetter/api/kwets/1?message=updateTest");
-         RestAssured.get("http://localhost:8080/Kwetter/api/kwets/1")
+        RestAssured.get("http://localhost:8080/Kwetter/api/kwets/1")
                 .then()
                 .assertThat().
                 body("message", equalTo("updateTest"));
     }
 
     @Test
-    public void delteProfile() {
+    public void delteKwet() {
         delete("http://localhost:8080/Kwetter/api/kwets/1");
+         given().when().get("http://localhost:8080/Kwetter/api/kwets/1")
+                .then().statusCode(204);
     }
 
-
-   
 }

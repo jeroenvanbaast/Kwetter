@@ -18,6 +18,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import service.KwetService;
 
 /**
@@ -40,15 +42,15 @@ public class KwetResource {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Kwet getStudent(@PathParam("id") long id) {
+    public Kwet getKwetById(@PathParam("id") long id) {
         Kwet kwet = service.getById(id);
         return kwet;
     }
 
     @PUT
     public void putKwet(@QueryParam("message") String message) {
-       Kwet kwet = new Kwet(message);
-       service.create(kwet);
+        Kwet kwet = new Kwet(message);
+        service.create(kwet);
     }
 
     @POST
@@ -62,6 +64,6 @@ public class KwetResource {
     @DELETE
     @Path("{id}")
     public void deleteKwet(@PathParam("id") long id) {
-       service.remove(service.getById(id));
+        service.remove(service.getById(id));
     }
 }

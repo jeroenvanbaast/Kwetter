@@ -10,6 +10,7 @@ import domain.Profile;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.delete;
 import static io.restassured.RestAssured.expect;
+import static io.restassured.RestAssured.given;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -76,6 +77,8 @@ public class RestProfileT {
     @Test
     public void delteProfile() {
         delete("http://localhost:8080/Kwetter/api/profiles/1");
+         given().when().get("http://localhost:8080/Kwetter/api/profiles/1")
+                .then().statusCode(204);
     }
 
 }
