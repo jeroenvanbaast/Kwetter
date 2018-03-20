@@ -5,6 +5,7 @@
  */
 package boundary.rest;
 
+import domain.Kwet;
 import domain.Profile;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -18,6 +19,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import service.KwetService;
 import service.ProfileService;
 
 /**
@@ -26,34 +28,41 @@ import service.ProfileService;
  */
 @Path("profiles")
 @Stateless
-public class ProfileResource {
+public class ProfileResource
+{
 
     @Inject
     private ProfileService service;
+    @Inject
+    private KwetService kwetService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Profile> getAll() {
+    public List<Profile> getAll()
+    {
         return service.getAll();
     }
 
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Profile getStudent(@PathParam("id") long id) {
+    public Profile getStudent(@PathParam("id") long id)
+    {
         Profile profile = service.getById(id);
         return profile;
     }
 
     @PUT
-    public void putProfile(@QueryParam("name") String name, @QueryParam("bio") String bio) {
+    public void putProfile(@QueryParam("name") String name, @QueryParam("bio") String bio)
+    {
         Profile profile = new Profile(name, bio);
         service.create(profile);
     }
 
     @POST
     @Path("{id}")
-    public void updateProfile(@PathParam("id") long id, @QueryParam("name") String name, @QueryParam("bio") String bio, @QueryParam("locatie") String locatie, @QueryParam("website") String website) {
+    public void updateProfile(@PathParam("id") long id, @QueryParam("name") String name, @QueryParam("bio") String bio, @QueryParam("locatie") String locatie, @QueryParam("website") String website)
+    {
         Profile profile = service.getById(id);
         profile.setName(name);
         profile.setBio(bio);
@@ -64,7 +73,48 @@ public class ProfileResource {
 
     @DELETE
     @Path("{id}")
-    public void deleteProfile(@PathParam("id") long id) {
+    public void deleteProfile(@PathParam("id") long id)
+    {
         service.remove(service.getById(id));
+    }
+
+    @POST
+    @Path("{id}/follow")
+    public void follow(@PathParam("id") int id, @QueryParam("followerId") int followerId)
+    {
+        Profile profile = service.getById(id);
+        Profile follower = service.getById(followerId);
+        profile.getFollowing().add(follower);
+        service.update(profile);
+    }
+
+    @DELETE
+    @Path("{id}/follow")
+    public void unFollow(@PathParam("id") int id, @QueryParam("followerId") int followerId)
+    {
+        Profile profile = service.getById(id);
+        Profile follower = service.getById(followerId);
+        profile.getFollowing().remove(follower);
+        service.update(profile);
+    }
+
+    @POST
+    @Path("{id}/heart")
+    public void heart(@PathParam("id") int id, @QueryParam("kwetId") int kwetId)
+    {
+        Kwet kwet = kwetService.getById(kwetId);
+        Profile profile = service.getById(id);
+        profile.getKwets().add(kwet);
+        service.update(profile);
+    }
+
+    @DELETE
+    @Path("{id}/heart")
+    public void unHeart(@PathParam("id") int id, @QueryParam("kwetId") int kwetId)
+    {
+        Kwet kwet = kwetService.getById(kwetId);
+        Profile profile = service.getById(id);
+        profile.getKwets().remove(kwet);
+        service.update(profile);
     }
 }

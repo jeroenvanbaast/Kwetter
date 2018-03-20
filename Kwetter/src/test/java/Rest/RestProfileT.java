@@ -9,6 +9,7 @@ import domain.Kwet;
 import domain.Profile;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.delete;
+import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.expect;
 import static io.restassured.RestAssured.given;
 import io.restassured.path.json.JsonPath;
@@ -30,25 +31,31 @@ import org.junit.FixMethodOrder;
  * @author Jeroen
  */
 @FixMethodOrder(org.junit.runners.MethodSorters.NAME_ASCENDING)
-public class RestProfileT {
+public class RestProfileT
+{
 
-    public RestProfileT() {
+    public RestProfileT()
+    {
     }
 
     @BeforeClass
-    public static void setUpClass() {
+    public static void setUpClass()
+    {
     }
 
     @AfterClass
-    public static void tearDownClass() {
+    public static void tearDownClass()
+    {
     }
 
     @Before
-    public void setUp() {
+    public void setUp()
+    {
     }
 
     @After
-    public void tearDown() {
+    public void tearDown()
+    {
     }
 
     // TODO add test methods here.
@@ -57,28 +64,60 @@ public class RestProfileT {
     // @Test
     // public void hello() {}
     @Test
-    public void canPutProfile() {
+    public void canPutProfile()
+    {
         io.restassured.RestAssured.put("http://localhost:8080/Kwetter/api/profiles?name=testNaam&bio=testBio");
-         RestAssured.get("http://localhost:8080/Kwetter/api/profiles/1")
+        RestAssured.get("http://localhost:8080/Kwetter/api/profiles/1")
                 .then()
                 .assertThat().
                 body("name", equalTo("testNaam"));
     }
 
     @Test
-    public void canUpdateProfile() {
+    public void canUpdateProfile()
+    {
         post("http://localhost:8080/Kwetter/api/profiles/1?name=updateTest&bio=testBio&locatie=locatie&website=website");
-         RestAssured.get("http://localhost:8080/Kwetter/api/profiles/1")
+        RestAssured.get("http://localhost:8080/Kwetter/api/profiles/1")
                 .then()
                 .assertThat().
                 body("name", equalTo("updateTest"));
     }
 
     @Test
-    public void delteProfile() {
-        delete("http://localhost:8080/Kwetter/api/profiles/1");
-         given().when().get("http://localhost:8080/Kwetter/api/profiles/1")
-                .then().statusCode(204);
+    public void follow()
+    {
+        io.restassured.RestAssured.put("http://localhost:8080/Kwetter/api/profiles?name=test2&bio=test2");
+        post("http://localhost:8080/Kwetter/api/profiles/1/follow/2");
+        JsonPath jsonPath = get("http://localhost:8080/Kwetter/api/profiles/1").jsonPath();
+        List<Profile> profiles = jsonPath.getList("", Profile.class);
+        assertEquals(profiles.get(0).getFollowing().size(), 1);
+        delete("http://localhost:8080/Kwetter/api/profiles/1/follow/2");
+        JsonPath jsonPath2 = get("http://localhost:8080/Kwetter/api/profiles/1").jsonPath();
+        List<Profile> profiles2 = jsonPath2.getList("", Profile.class);
+        assertEquals(profiles2.get(0).getFollowing().size(), 1);
     }
 
+    @Test
+    public void heart()
+    {
+        io.restassured.RestAssured.put("http://localhost:8080/Kwetter/api/kwets?message=testMessage");
+        post("http://localhost:8080/Kwetter/api/profiles/1/heart/1");
+
+        JsonPath jsonPath = get("http://localhost:8080/Kwetter/api/profiles/1").jsonPath();
+        List<Profile> profiles = jsonPath.getList("", Profile.class);
+        assertEquals(profiles.get(0).getHeartedKwets().size(), 1);
+        delete("http://localhost:8080/Kwetter/api/profiles/1/heart/1");
+        JsonPath jsonPath2 = get("http://localhost:8080/Kwetter/api/profiles/1").jsonPath();
+        List<Profile> profiles2 = jsonPath2.getList("", Profile.class);
+        assertEquals(profiles2.get(0).getHeartedKwets().size(), 0);
+        delete("http://localhost:8080/Kwetter/api/kwets/1");
+    }
+    
+    @Test
+    public void delteProfile()
+    {
+        delete("http://localhost:8080/Kwetter/api/profiles/1");
+        given().when().get("http://localhost:8080/Kwetter/api/profiles/1")
+                .then().statusCode(204);
+    }
 }
