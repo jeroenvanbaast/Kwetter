@@ -5,8 +5,11 @@
  */
 package Rest;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import domain.Kwet;
 import domain.Profile;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.RestAssured;
 import static io.restassured.RestAssured.delete;
 import static io.restassured.RestAssured.get;
@@ -18,6 +21,7 @@ import io.restassured.specification.RequestSpecification;
 import java.util.List;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static io.restassured.RestAssured.post;
+import java.io.IOException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -31,31 +35,25 @@ import org.junit.FixMethodOrder;
  * @author Jeroen
  */
 @FixMethodOrder(org.junit.runners.MethodSorters.NAME_ASCENDING)
-public class RestProfileT
-{
+public class RestProfileT {
 
-    public RestProfileT()
-    {
+    public RestProfileT() {
     }
 
     @BeforeClass
-    public static void setUpClass()
-    {
+    public static void setUpClass() {
     }
 
     @AfterClass
-    public static void tearDownClass()
-    {
+    public static void tearDownClass() {
     }
 
     @Before
-    public void setUp()
-    {
+    public void setUp() {
     }
 
     @After
-    public void tearDown()
-    {
+    public void tearDown() {
     }
 
     // TODO add test methods here.
@@ -64,8 +62,7 @@ public class RestProfileT
     // @Test
     // public void hello() {}
     @Test
-    public void canPutProfile()
-    {
+    public void acanPutProfile() {
         io.restassured.RestAssured.put("http://localhost:8080/Kwetter/api/profiles?name=testNaam&bio=testBio");
         RestAssured.get("http://localhost:8080/Kwetter/api/profiles/1")
                 .then()
@@ -74,8 +71,7 @@ public class RestProfileT
     }
 
     @Test
-    public void canUpdateProfile()
-    {
+    public void bcanUpdateProfile() {
         post("http://localhost:8080/Kwetter/api/profiles/1?name=updateTest&bio=testBio&locatie=locatie&website=website");
         RestAssured.get("http://localhost:8080/Kwetter/api/profiles/1")
                 .then()
@@ -84,38 +80,53 @@ public class RestProfileT
     }
 
     @Test
-    public void follow()
-    {
+    public void cfollow() throws IOException {
+        //put data
         io.restassured.RestAssured.put("http://localhost:8080/Kwetter/api/profiles?name=test2&bio=test2");
-        post("http://localhost:8080/Kwetter/api/profiles/1/follow/2");
-        JsonPath jsonPath = get("http://localhost:8080/Kwetter/api/profiles/1").jsonPath();
+        // follow profile
+        post("http://localhost:8080/Kwetter/api/profiles/1/follow?followerId=2");
+
+        // check follow
+        JsonPath jsonPath = get("http://localhost:8080/Kwetter/api/profiles").jsonPath();
         List<Profile> profiles = jsonPath.getList("", Profile.class);
         assertEquals(profiles.get(0).getFollowing().size(), 1);
-        delete("http://localhost:8080/Kwetter/api/profiles/1/follow/2");
-        JsonPath jsonPath2 = get("http://localhost:8080/Kwetter/api/profiles/1").jsonPath();
+
+        // unfollow profile
+        delete("http://localhost:8080/Kwetter/api/profiles/1/follow?followerId=2");
+
+        //check unfollow
+        JsonPath jsonPath2 = get("http://localhost:8080/Kwetter/api/profiles").jsonPath();
         List<Profile> profiles2 = jsonPath2.getList("", Profile.class);
-        assertEquals(profiles2.get(0).getFollowing().size(), 1);
+        assertEquals(profiles2.get(0).getFollowing().size(), 0);
+        
+        // delete profile
+         delete("http://localhost:8080/Kwetter/api/profiles/2");
     }
 
     @Test
-    public void heart()
-    {
+    public void dheart() {
+        // put kwet
         io.restassured.RestAssured.put("http://localhost:8080/Kwetter/api/kwets?message=testMessage");
-        post("http://localhost:8080/Kwetter/api/profiles/1/heart/1");
+        
+        // heart kwet
+        post("http://localhost:8080/Kwetter/api/profiles/1/heart?kwetId=1");
 
-        JsonPath jsonPath = get("http://localhost:8080/Kwetter/api/profiles/1").jsonPath();
+        // check heart kwet
+        JsonPath jsonPath = get("http://localhost:8080/Kwetter/api/profiles").jsonPath();
         List<Profile> profiles = jsonPath.getList("", Profile.class);
-        assertEquals(profiles.get(0).getHeartedKwets().size(), 1);
-        delete("http://localhost:8080/Kwetter/api/profiles/1/heart/1");
-        JsonPath jsonPath2 = get("http://localhost:8080/Kwetter/api/profiles/1").jsonPath();
+        assertEquals(1, profiles.get(0).getHeartedKwets().size());
+        
+        // unheart kwet
+        delete("http://localhost:8080/Kwetter/api/profiles/1/heart?kwetId=1");
+        
+        // check unheart kwet
+        JsonPath jsonPath2 = get("http://localhost:8080/Kwetter/api/profiles").jsonPath();
         List<Profile> profiles2 = jsonPath2.getList("", Profile.class);
-        assertEquals(profiles2.get(0).getHeartedKwets().size(), 0);
-        delete("http://localhost:8080/Kwetter/api/kwets/1");
+        assertEquals(0, profiles2.get(0).getHeartedKwets().size());
     }
-    
+
     @Test
-    public void delteProfile()
-    {
+    public void edelteProfile() {
         delete("http://localhost:8080/Kwetter/api/profiles/1");
         given().when().get("http://localhost:8080/Kwetter/api/profiles/1")
                 .then().statusCode(204);

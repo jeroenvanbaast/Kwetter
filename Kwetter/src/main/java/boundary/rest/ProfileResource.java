@@ -104,7 +104,7 @@ public class ProfileResource
     {
         Kwet kwet = kwetService.getById(kwetId);
         Profile profile = service.getById(id);
-        profile.getKwets().add(kwet);
+        profile.getHeartedKwets().add(kwet);
         service.update(profile);
     }
 
@@ -114,7 +114,7 @@ public class ProfileResource
     {
         Kwet kwet = kwetService.getById(kwetId);
         Profile profile = service.getById(id);
-        profile.getKwets().remove(kwet);
+        profile.getHeartedKwets().remove(kwet);
         service.update(profile);
     }
 }
