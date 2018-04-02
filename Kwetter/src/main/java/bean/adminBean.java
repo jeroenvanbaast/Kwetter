@@ -10,6 +10,7 @@ import domain.User;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -21,7 +22,7 @@ import service.UserService;
  *
  * @author jeroen
  */
-@Named(value = "admin")
+@Named
 @ViewScoped
 public class adminBean implements Serializable
 {

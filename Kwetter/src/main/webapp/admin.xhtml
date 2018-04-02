@@ -10,42 +10,43 @@ and open the template in the editor.
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
+    <f:view>
+        <h:head>
+            <title>Admin page</title>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        </h:head>
+        <h:body>
+            <!--        <p:tabView>
+                        <p:tab title="Gebruikers">-->
+            <p:dataTable id="userTable" var="item" value="#{adminBean.getUserData}">
+                <p:column headerText="Gebruikersnaam">
+                    <h:outputText value="#{item.userName}"/>
+                </p:column>
 
-    <head>
-        <title>Admin page</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
-    <body>
-<!--        <p:tabView>
-            <p:tab title="Gebruikers">-->
-                <p:dataTable id="userTable" var="item" value="#{adminBean.getUserData}">
-                    <p:column headerText="Gebruikersnaam">
-                        <h:outputText value="#{item.userName}"/>
-                    </p:column>
+                <p:column headerText="Profielnaam">
+                    <h:outputText value="#{item.profile.name}"/>
+                </p:column>
 
-                    <p:column headerText="Profielnaam">
-                        <h:outputText value="#{item.profile.name}"/>
-                    </p:column>
+                <p:column headerText="Profielnaam">
+                    <h:outputText value="#{item.accountType}"/>
+                </p:column>
 
-                    <p:column headerText="Profielnaam">
-                        <h:outputText value="#{item.accountType}"/>
-                    </p:column>
+            </p:dataTable>
 
-                </p:dataTable>
+            <!--            </p:tab>
+                        <p:tab title="Kwets">-->
+            <p:dataTable id="kwetTable" var="item" value="#{adminBean.getKwetData}">
+                <p:column headerText="Geplaatst door">
+                    <h:outputText value="#{item}"/>
+                </p:column>
 
-<!--            </p:tab>
-            <p:tab title="Kwets">-->
-                <p:dataTable id="kwetTable" var="item" value="#{adminBean.getKwetData}">
-                    <p:column headerText="Geplaatst door">
-                        <h:outputText value="#{item}"/>
-                    </p:column>
+                <p:column headerText="Bericht">
+                    <h:outputText value="#{item.message}"/>
+                </p:column>
 
-                    <p:column headerText="Bericht">
-                        <h:outputText value="#{item.message}"/>
-                    </p:column>
-
-                </p:dataTable>
+            </p:dataTable>
             <!--</p:tab>-->
-        <!--</p:tabView>-->
-    </body>
+            <!--</p:tabView>-->
+        </h:body>
+    </f:view>
 </html>
