@@ -46,13 +46,6 @@ public class ProfileTest {
     // @Test
     // public void hello() {}
     
-    @Test
-    public void testPlaceKwet(){
-        Kwet kwet = new Kwet("test");
-        profile.placeKwet(kwet);
-        
-        assertEquals(kwet,profile.getKwets().get(0));
-    }
     
     @Test
     public void testFollow(){

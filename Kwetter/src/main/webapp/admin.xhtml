@@ -6,16 +6,46 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
     <head>
-        <title>TODO supply a title</title>
+        <title>Admin page</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
-        <p:dataTable id="userTable" var="item" value=""
+<!--        <p:tabView>
+            <p:tab title="Gebruikers">-->
+                <p:dataTable id="userTable" var="item" value="#{adminBean.getUserData}">
+                    <p:column headerText="Gebruikersnaam">
+                        <h:outputText value="#{item.userName}"/>
+                    </p:column>
+
+                    <p:column headerText="Profielnaam">
+                        <h:outputText value="#{item.profile.name}"/>
+                    </p:column>
+
+                    <p:column headerText="Profielnaam">
+                        <h:outputText value="#{item.accountType}"/>
+                    </p:column>
+
+                </p:dataTable>
+
+<!--            </p:tab>
+            <p:tab title="Kwets">-->
+                <p:dataTable id="kwetTable" var="item" value="#{adminBean.getKwetData}">
+                    <p:column headerText="Geplaatst door">
+                        <h:outputText value="#{item}"/>
+                    </p:column>
+
+                    <p:column headerText="Bericht">
+                        <h:outputText value="#{item.message}"/>
+                    </p:column>
+
+                </p:dataTable>
+            <!--</p:tab>-->
+        <!--</p:tabView>-->
     </body>
 </html>

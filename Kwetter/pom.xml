@@ -30,16 +30,15 @@
             <version>5.1.45</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.primefaces/primefaces -->
+    
         <dependency>
             <groupId>org.primefaces</groupId>
             <artifactId>primefaces</artifactId>
-            <version>6.0</version>
+            <version>6.2</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.primefaces.themes/rocket -->
         <dependency>
             <groupId>org.primefaces.themes</groupId>
-            <artifactId>rocket</artifactId>
+            <artifactId>all-themes</artifactId>
             <version>1.0.10</version>
         </dependency>
         

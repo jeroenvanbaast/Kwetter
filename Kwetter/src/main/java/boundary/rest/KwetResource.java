@@ -6,6 +6,7 @@
 package boundary.rest;
 
 import domain.Kwet;
+import domain.Profile;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -21,6 +22,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import service.KwetService;
+import service.ProfileService;
 
 /**
  *
@@ -32,6 +34,8 @@ public class KwetResource {
 
     @Inject
     private KwetService service;
+    @Inject
+    private ProfileService profileService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -48,8 +52,9 @@ public class KwetResource {
     }
 
     @PUT
-    public void putKwet(@QueryParam("message") String message) {
-        Kwet kwet = new Kwet(message);
+    public void putKwet(@QueryParam("message") String message, @PathParam("profileId") long profileId) {
+        Profile profile = profileService.getById(profileId);
+        Kwet kwet = new Kwet(message, profile);
         service.create(kwet);
     }
 

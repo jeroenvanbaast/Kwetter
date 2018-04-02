@@ -16,12 +16,18 @@ import javax.persistence.TypedQuery;
  * @author Jeroen
  */
 @Stateless
-public class KwetDao extends AbstractDao<Kwet>{
-    
-     public List<Kwet> findByMessage(String message){
-     return entityManager.createNamedQuery("kwet.findByMessage", Kwet.class)
-             .setParameter("message", message).getResultList();
-        
-     }   
-    
+public class KwetDao extends AbstractDao<Kwet> {
+
+    public List<Kwet> findByMessage(String message) {
+        return entityManager.createNamedQuery("kwet.findByMessage", Kwet.class)
+                .setParameter("message", message).getResultList();
+
+    }
+
+    public List<Kwet> getAllFlagged() {
+        return entityManager.createNamedQuery("kwet.getAllFlagged", Kwet.class)
+                .getResultList();
+
+    }
+
 }

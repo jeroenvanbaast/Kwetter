@@ -7,11 +7,12 @@ package bean;
 
 import domain.Kwet;
 import domain.User;
+import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 import service.KwetService;
 import service.ProfileService;
 import service.UserService;
@@ -20,10 +21,9 @@ import service.UserService;
  *
  * @author jeroen
  */
-
-@ManagedBean
+@Named(value = "admin")
 @ViewScoped
-public class adminBean
+public class adminBean implements Serializable
 {
     @Inject
     private UserService userService;
@@ -42,7 +42,7 @@ public class adminBean
     }
     
     public List<Kwet> getKwetData(){
-        return kwetService.getAll();
+        return kwetService.getAllFlagged();
     }
     
     // <editor-fold defaultstate="collapsed" desc="getters en setters">

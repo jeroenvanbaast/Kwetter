@@ -28,12 +28,32 @@ public class StartUp {
     private UserService userService;
     @Inject
     private HashTagService hashTagService;
-    
+    @Inject
+    private AccountTypeService accountTypeService;
+
     public StartUp() {
     }
 
     @PostConstruct
     public void test() {
-  
+            putDummyData();
+        
     }
+
+    public void putDummyData() {
+        AccountType admin = new AccountType("admin");
+        AccountType userType = new AccountType("gebruiker");
+        User user = new User("root", "toor");
+        Profile profile = new Profile("superadmin", "Super coole bio");
+        user.setProfile(profile);
+        Kwet kwet = new Kwet("Dit is een test kwet", profile);
+        profile.placeKwet(kwet);
+        user.setAccountType(admin);
+        User henk = new User("Henk", "wachtwoord");
+        user.setProfile(new Profile("Henk", "Henk zijn bio"));
+        henk.setAccountType(userType);
+        User jan = new User("Jan", "wachtwoord");
+        jan.setProfile(new Profile("Jan", "Jantje"));
+    }
+
 }

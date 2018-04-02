@@ -23,19 +23,20 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @NamedQueries({
-@NamedQuery (name = "user.findByUserName", query = "SELECT u FROM User u WHERE u.userName = :userName")})
-@Table(name="users")
+    @NamedQuery(name = "user.findByUserName", query = "SELECT u FROM User u WHERE u.userName = :userName")})
+@Table(name = "users")
 @XmlRootElement
-public class User implements Serializable{
+public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    
+
     private String userName;
     private String passwordHash;
     @OneToOne(cascade = CascadeType.ALL)
     private Profile profile;
+    private AccountType accountType;
 
     public User() {
 
@@ -75,5 +76,14 @@ public class User implements Serializable{
     public void setId(long id) {
         this.id = id;
     }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
+
 // </editor-fold>
 }
