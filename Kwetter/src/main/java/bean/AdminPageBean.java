@@ -11,7 +11,10 @@ import domain.User;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.AjaxBehaviorEvent;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import service.AccountTypeService;
@@ -20,14 +23,13 @@ import service.UserService;
 
 /**
  *
- * @author jeroen
+ * @author Jeroen
  */
-@Named(value = "adminBean")
-@ViewScoped
-public class AdminBean implements Serializable
-{
-
-    @Inject
+@Named
+@SessionScoped
+public class AdminPageBean implements Serializable{
+    
+     @Inject
     private UserService userService;
     @Inject
     private KwetService kwetService;
@@ -38,6 +40,7 @@ public class AdminBean implements Serializable
     private List<Kwet> flaggedKwets;
     private List<User> users;
     
+    @PostConstruct
     public void init()
     {
         this.accountTypes = accountTypeService.getAll();
@@ -48,6 +51,10 @@ public class AdminBean implements Serializable
     public void removeKwet()
     {
 
+    }
+    
+    public void onChangeAccountType(ValueChangeEvent event){
+        System.out.println(event);
     }
 
     // <editor-fold defaultstate="collapsed" desc="getters en setters">

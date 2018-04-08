@@ -54,10 +54,11 @@ public class StartUp {
         profile.placeKwet(kwet);
         user.setAccountType(admin);
         User henk = new User("Henk", "wachtwoord");
-        user.setProfile(new Profile("Henk", "Henk zijn bio"));
+        henk.setProfile(new Profile("Henk", "Henk zijn bio"));
         henk.setAccountType(userType);
         User jan = new User("Jan", "wachtwoord");
         jan.setProfile(new Profile("Jan", "Jantje"));
+        henk.setAccountType(userType);
         this.userService.create(user);
         this.userService.create(henk);
         this.userService.create(jan);

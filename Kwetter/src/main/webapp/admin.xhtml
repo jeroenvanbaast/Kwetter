@@ -11,57 +11,50 @@ and open the template in the editor.
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 
-    <f:metadata>
-        <f:event type="preRenderView" listener="#{adminBean.init()}"/>
-    </f:metadata>
+    <h:head>
+        <title>Admin page</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:tabView>
+                <p:tab title="Gebruikers">
+                    <p:dataTable id="userTable" var="item" value="#{adminPageBean.users}">
+                        <p:column headerText="Gebruikersnaam">
+                            <h:outputText value="#{item.userName}"/>
+                        </p:column>
 
-    <f:view>
+                        <p:column headerText="Profielnaam">
+                            <h:outputText value="#{item.profile.name}"/>
+                        </p:column>
 
-        <h:head>
-            <title>Admin page</title>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        </h:head>
-        <h:body>
-            <h:form>
-                <p:tabView>
-                    <p:tab title="Gebruikers">
-                        <p:dataTable id="userTable" var="item" value="#{adminBean.users}">
-                            <p:column headerText="Gebruikersnaam">
-                                <h:outputText value="#{item.userName}"/>
-                            </p:column>
+                        <p:column headerText="Account type">
+                            <p:selectOneMenu id="accountType" value="#{item.accountType}"
+                                             valueChangeListener="#{adminPageBean.onChangeAccountType}">
+                                <p:ajax update="@this"/>
+                                <f:selectItems value="#{adminPageBean.accountTypes}" />
+                            </p:selectOneMenu>
+                        </p:column>
 
-                            <p:column headerText="Profielnaam">
-                                <h:outputText value="#{item.profile.name}"/>
-                            </p:column>
+                    </p:dataTable>
 
-                            <p:column headerText="Account type">
-                                <p:selectOneMenu id="accountType" value="#{item.accountType}">
-                                    <f:selectItems value="#{adminBean.accountTypes}" />
+                </p:tab>
+                <p:tab title="Kwets">
+                    <p:dataTable id="kwetTable" var="item" value="#{adminPageBean.flaggedKwets}">
+                        <p:column headerText="Geplaatst door">
+                            <h:outputText value="#{item}"/>
+                        </p:column>
 
-                                </p:selectOneMenu>
-                            </p:column>
+                        <p:column headerText="Bericht">
+                            <h:outputText value="#{item.message}"/>
+                        </p:column>
 
-                        </p:dataTable>
-
-                    </p:tab>
-                    <p:tab title="Kwets">
-                        <p:dataTable id="kwetTable" var="item" value="#{adminBean.flaggedKwets}">
-                            <p:column headerText="Geplaatst door">
-                                <h:outputText value="#{item}"/>
-                            </p:column>
-
-                            <p:column headerText="Bericht">
-                                <h:outputText value="#{item.message}"/>
-                            </p:column>
-
-                            <p:column headerText="Verwijderen">
-                                <p:commandButton action="#{adminBean.removeKwet()}"/>
-                            </p:column>
-                        </p:dataTable>
-                    </p:tab>
-                </p:tabView>
-            </h:form>
-        </h:body>
-
-    </f:view>
+                        <p:column headerText="Verwijderen">
+                            <p:commandButton action="#{adminPageBean.removeKwet()}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+            </p:tabView>
+        </h:form>
+    </h:body>
 </html>

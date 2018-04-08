@@ -21,7 +21,7 @@ public class AccountTypeService extends AccountTypeDao{
     
     public ArrayList<AccountType> getAll()
     {
-        Query query = this.entityManager.createQuery("SELECT a FROM AccountType sa");
+        Query query = this.entityManager.createQuery("SELECT a FROM AccountType a");
         return new ArrayList<>(query.getResultList());
     }
 }

@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
@@ -36,7 +37,8 @@ public class User implements Serializable {
     private String passwordHash;
     @OneToOne(cascade = CascadeType.ALL)
     private Profile profile;
-    @OneToOne(cascade = CascadeType.ALL)
+   
+    @ManyToOne(cascade = CascadeType.ALL)
     private AccountType accountType;
 
     public User() {
@@ -87,4 +89,24 @@ public class User implements Serializable {
     }
 
 // </editor-fold>
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

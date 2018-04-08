@@ -41,6 +41,12 @@ public class AccountType implements Serializable{
         this.name = name;        
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    
     // <editor-fold defaultstate="collapsed" desc="getters en setters">
     public String getName() {
         return name;
