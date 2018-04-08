@@ -49,7 +49,7 @@ public class StartUp {
         Profile profile = new Profile("superadmin", "Super coole bio");
         user.setProfile(profile);
 
-        Kwet kwet = new Kwet("Dit is een test kwet", profile);
+        Kwet kwet = new Kwet("Dit is een test kwet ****", profile);
         kwet.setFlagged(true);
         profile.placeKwet(kwet);
         user.setAccountType(admin);

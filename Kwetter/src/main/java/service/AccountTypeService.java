@@ -6,7 +6,11 @@
 package service;
 
 import dao.AccountTypeDao;
+import domain.AccountType;
+import domain.User;
+import java.util.ArrayList;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 
 /**
  *
@@ -15,4 +19,9 @@ import javax.ejb.Stateless;
 @Stateless
 public class AccountTypeService extends AccountTypeDao{
     
+    public ArrayList<AccountType> getAll()
+    {
+        Query query = this.entityManager.createQuery("SELECT a FROM AccountType sa");
+        return new ArrayList<>(query.getResultList());
+    }
 }

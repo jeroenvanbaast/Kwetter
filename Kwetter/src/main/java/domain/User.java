@@ -36,6 +36,7 @@ public class User implements Serializable {
     private String passwordHash;
     @OneToOne(cascade = CascadeType.ALL)
     private Profile profile;
+    @OneToOne(cascade = CascadeType.ALL)
     private AccountType accountType;
 
     public User() {
