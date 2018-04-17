@@ -38,7 +38,7 @@ public class User implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     private Profile profile;
    
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     private AccountType accountType;
 
     public User() {
@@ -106,6 +106,11 @@ public class User implements Serializable {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return userName + " accountType=" + accountType;
     }
     
     

@@ -28,7 +28,7 @@ public class HashTag implements Serializable{
     private long id;
     
     private String hashTagText;
-    @ManyToMany(mappedBy = "hashTags", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "hashTags")
     private List<Kwet> kwets;
     
     public HashTag() {

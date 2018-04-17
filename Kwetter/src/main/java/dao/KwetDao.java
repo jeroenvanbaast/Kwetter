@@ -15,8 +15,7 @@ import javax.persistence.TypedQuery;
  *
  * @author Jeroen
  */
-@Stateless
-public class KwetDao extends AbstractDao<Kwet> {
+public abstract class KwetDao extends AbstractDao<Kwet> {
 
     public List<Kwet> findByMessage(String message) {
         return entityManager.createNamedQuery("kwet.findByMessage", Kwet.class)

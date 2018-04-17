@@ -36,22 +36,19 @@ public class StartUp {
 
     @PostConstruct
     public void test() {
-        putDummyData();
+//        putDummyData();
 
     }
 
     public void putDummyData() {
-        AccountType admin = new AccountType("admin");
-        AccountType userType = new AccountType("gebruiker");
+        AccountType admin = new AccountType("admins");
+        AccountType userType = new AccountType("users");
         this.accountTypeService.create(admin);
         this.accountTypeService.create(userType);
         User user = new User("root", "toor");
         Profile profile = new Profile("superadmin", "Super coole bio");
         user.setProfile(profile);
 
-        Kwet kwet = new Kwet("Dit is een test kwet ****", profile);
-        kwet.setFlagged(true);
-        profile.placeKwet(kwet);
         user.setAccountType(admin);
         User henk = new User("Henk", "wachtwoord");
         henk.setProfile(new Profile("Henk", "Henk zijn bio"));
@@ -62,6 +59,11 @@ public class StartUp {
         this.userService.create(user);
         this.userService.create(henk);
         this.userService.create(jan);
+        this.profileService.create(profile);
+         Kwet kwet = new Kwet("Dit is een test kwet ****",profile);
+        kwet.setFlagged(true);
+        profile.placeKwet(kwet);
+        this.kwetService.create(kwet);
     }
 
 }

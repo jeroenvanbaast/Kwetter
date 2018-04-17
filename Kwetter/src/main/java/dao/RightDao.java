@@ -12,7 +12,6 @@ import javax.ejb.Stateless;
  *
  * @author Jeroen
  */
-@Stateless
-public class RightDao extends AbstractDao<Right> {
+public abstract class RightDao extends AbstractDao<Right> {
     
 }

@@ -12,7 +12,6 @@ import javax.ejb.Stateless;
  *
  * @author Jeroen
  */
-@Stateless
-public class AccountTypeDao extends AbstractDao<AccountType>{
+public abstract class AccountTypeDao extends AbstractDao<AccountType>{
     
 }

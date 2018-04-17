@@ -14,8 +14,7 @@ import javax.ejb.Stateless;
  *
  * @author Jeroen
  */
-@Stateless
-public class UserDao extends AbstractDao<User>{
+public abstract class UserDao extends AbstractDao<User>{
 
       
      public User findByName(String userName){
@@ -23,4 +22,6 @@ public class UserDao extends AbstractDao<User>{
              .setParameter("userName", userName).getSingleResult();
         
      }   
+     
+
 }

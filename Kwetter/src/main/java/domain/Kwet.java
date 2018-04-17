@@ -34,9 +34,9 @@ public class Kwet implements Serializable {
     private Date placedDate;
     private String message;
     private boolean flagged;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     private List<HashTag> hashTags;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany()
     private List<Profile> tagged;
 
     public Kwet(){
@@ -101,7 +101,23 @@ public class Kwet implements Serializable {
         this.flagged = flagged;
     }
     
-    
+        public long getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(long profileId) {
+        this.profileId = profileId;
+    }
+
+    public String getProfileName() {
+        return profileName;
+    }
+
+    public void setProfileName(String profileName) {
+        this.profileName = profileName;
+    }
     
     // </editor-fold>
+
+
 }

@@ -48,9 +48,9 @@ public class AdminPageBean implements Serializable{
         this.users = userService.getAll();
     }
 
-    public void removeKwet()
+    public void removeKwet(Kwet kwet)
     {
-
+        kwetService.remove(kwet);
     }
     
     public void onChangeAccountType(ValueChangeEvent event){

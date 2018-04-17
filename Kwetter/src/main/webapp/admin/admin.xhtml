@@ -42,7 +42,7 @@ and open the template in the editor.
                 <p:tab title="Kwets">
                     <p:dataTable id="kwetTable" var="item" value="#{adminPageBean.flaggedKwets}">
                         <p:column headerText="Geplaatst door">
-                            <h:outputText value="#{item}"/>
+                            <h:outputText value="#{item.profileName}"/>
                         </p:column>
 
                         <p:column headerText="Bericht">
@@ -50,7 +50,8 @@ and open the template in the editor.
                         </p:column>
 
                         <p:column headerText="Verwijderen">
-                            <p:commandButton action="#{adminPageBean.removeKwet()}"/>
+                            <p:commandButton action="#{adminPageBean.removeKwet(item)}" value="verwijderen"
+                                             update="@form" process="@this"/>
                         </p:column>
                     </p:dataTable>
                 </p:tab>

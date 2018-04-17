@@ -200,4 +200,9 @@ public class Profile implements Serializable{
     }
     // </editor-fold>
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }

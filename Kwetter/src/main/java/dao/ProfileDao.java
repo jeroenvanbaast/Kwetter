@@ -12,8 +12,7 @@ import javax.ejb.Stateless;
  *
  * @author Jeroen
  */
-@Stateless
-public class ProfileDao extends AbstractDao<Profile>{
+public abstract class ProfileDao extends AbstractDao<Profile>{
 
     
 }

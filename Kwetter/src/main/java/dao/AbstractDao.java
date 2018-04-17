@@ -56,7 +56,7 @@ public abstract class AbstractDao<T> implements Dao<T> {
 
     @Override
     public void remove(T entity) {
-        entityManager.remove(entity);
+        entityManager.remove(entityManager.merge(entity));
     }
 
     @Override
