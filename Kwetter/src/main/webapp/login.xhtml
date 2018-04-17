@@ -14,13 +14,13 @@ and open the template in the editor.
         <title>Login</title>
     </head>
     <body>
-        <h:form>
+        <h:form id="form">
             <h:panelGrid columns="2" cellpadding="5">
                 <h:outputText value="Gebruikersnaam "/>
-                <p:inputText id="username" />
+                <p:inputText id="username" value="#{loginBean.userName}"/>
                  <h:outputText value="Wachtwoord "/>
-                <p:password id="password" />
-                <p:commandButton id="login" value="login"/>
+                 <p:password id="password" value="#{loginBean.password}" />
+                <p:commandButton id="login" value="login" ajax="false" action="#{loginBean.login()}"/>
             </h:panelGrid>
         </h:form>
     </body>

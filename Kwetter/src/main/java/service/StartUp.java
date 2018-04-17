@@ -36,7 +36,7 @@ public class StartUp {
 
     @PostConstruct
     public void test() {
-//        putDummyData();
+        putDummyData();
 
     }
 
