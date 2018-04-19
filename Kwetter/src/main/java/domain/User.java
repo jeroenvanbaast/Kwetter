@@ -6,6 +6,9 @@
 package domain;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.security.NoSuchAlgorithmException;
+import javax.inject.Inject;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +20,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import service.UserService;
 
 /**
  *
@@ -27,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "user.findByUserName", query = "SELECT u FROM User u WHERE u.userName = :userName")})
 @Table(name = "users")
 @XmlRootElement
-public class User implements Serializable {
+public class User implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,7 +41,7 @@ public class User implements Serializable {
     private String passwordHash;
     @OneToOne(cascade = CascadeType.ALL)
     private Profile profile;
-   
+
     @ManyToOne()
     private AccountType accountType;
 
@@ -47,7 +51,7 @@ public class User implements Serializable {
 
     public User(String userName, String password) {
         this.userName = userName;
-        this.passwordHash = password;
+        this.passwordHash = UserService.encodeSHA256(password);
         this.profile = new Profile();
     }
 
@@ -61,7 +65,7 @@ public class User implements Serializable {
     }
 
     public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+        this.passwordHash = UserService.encodeSHA256(passwordHash);
     }
 
     public Profile getProfile() {
@@ -89,7 +93,6 @@ public class User implements Serializable {
     }
 
 // </editor-fold>
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -112,6 +115,5 @@ public class User implements Serializable {
     public String toString() {
         return userName + " accountType=" + accountType;
     }
-    
-    
+
 }

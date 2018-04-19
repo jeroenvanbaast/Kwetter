@@ -15,7 +15,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -27,8 +27,8 @@ import service.UserService;
  *
  * @author Jeroen
  */
-@Named
-@SessionScoped
+@Named("loginBean")
+@ViewScoped
 public class LoginBean implements Serializable {
 
     private static Logger log = Logger.getLogger(LoginBean.class.getName());
@@ -52,6 +52,7 @@ public class LoginBean implements Serializable {
         try {
             request.login(userName, password);
         } catch (ServletException e) {
+            System.out.println(e);
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Login failed!", null));
             return "login";
         }

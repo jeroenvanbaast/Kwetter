@@ -10,18 +10,21 @@ and open the template in the editor.
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-    <head>
+    <h:head>
         <title>Login</title>
-    </head>
-    <body>
+    </h:head>
+    <h:body>
         <h:form id="form">
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate />
+            </p:messages>
             <h:panelGrid columns="2" cellpadding="5">
                 <h:outputText value="Gebruikersnaam "/>
                 <p:inputText id="username" value="#{loginBean.userName}"/>
-                 <h:outputText value="Wachtwoord "/>
-                 <p:password id="password" value="#{loginBean.password}" />
-                <p:commandButton id="login" value="login" ajax="false" action="#{loginBean.login()}"/>
+                <h:outputText value="Wachtwoord "/>
+                <p:password id="password" value="#{loginBean.password}" />
+                <p:commandButton id="login" value="login" update="form" action="#{loginBean.login()}"/>
             </h:panelGrid>
         </h:form>
-    </body>
+    </h:body>
 </html>
