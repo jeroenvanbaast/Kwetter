@@ -62,8 +62,8 @@ public class LoginBean implements Serializable {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, Object> sessionMap = externalContext.getSessionMap();
         sessionMap.put("User", user);
-        if (request.isUserInRole("users")) {
-            return "/user/index?faces-redirect=true";
+        if (request.isUserInRole("admin")) {
+            return "/admin/admin.xhtml?faces-redirect=true";
         } else {
             return "login";
         }
