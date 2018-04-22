@@ -18,19 +18,19 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @NamedQueries({
-@NamedQuery (name = "kwet.findByMessage", query = "SELECT k FROM Kwet k WHERE k.message = :message"),
-@NamedQuery (name = "kwet.getAllFlagged", query = "SELECT k FROM Kwet k WHERE k.flagged = TRUE")
+    @NamedQuery(name = "kwet.findByMessage", query = "SELECT k FROM Kwet k WHERE k.message = :message")
+    ,
+@NamedQuery(name = "kwet.getAllFlagged", query = "SELECT k FROM Kwet k WHERE k.flagged = TRUE")
 })
 
 @XmlRootElement
 public class Kwet implements Serializable {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    
-    private long profileId;
-    private String profileName;
+
+    private Profile profile;
     private Date placedDate;
     private String message;
     private boolean flagged;
@@ -39,19 +39,18 @@ public class Kwet implements Serializable {
     @ManyToMany()
     private List<Profile> tagged;
 
-    public Kwet(){
+    public Kwet() {
         hashTags = new ArrayList();
         tagged = new ArrayList();
     }
-    
-    public Kwet(String message, Profile profile){
+
+    public Kwet(String message, Profile profile) {
         this.message = message;
-        this.profileId = profile.getId();
-        this.profileName = profile.getName();
+        this.profile = profile;
         hashTags = new ArrayList();
         tagged = new ArrayList();
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="getters en setters">
     public String getMessage() {
         return message;
@@ -92,32 +91,24 @@ public class Kwet implements Serializable {
     public void setId(long id) {
         this.id = id;
     }
-    
-     public boolean isFlagged() {
+
+    public boolean isFlagged() {
         return flagged;
     }
 
     public void setFlagged(boolean flagged) {
         this.flagged = flagged;
     }
-    
-        public long getProfileId() {
-        return profileId;
+
+   public Profile getProfile() {
+        return profile;
     }
 
-    public void setProfileId(long profileId) {
-        this.profileId = profileId;
+    public void setProfile(Profile profile) {
+        this.profile = profile;
     }
 
-    public String getProfileName() {
-        return profileName;
-    }
-
-    public void setProfileName(String profileName) {
-        this.profileName = profileName;
-    }
-    
     // </editor-fold>
 
-
+ 
 }

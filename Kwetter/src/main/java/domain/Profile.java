@@ -42,7 +42,7 @@ public class Profile implements Serializable{
     private String website;
     private Boolean publicWebsite;
     
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Kwet> kwets;
     @ManyToMany(mappedBy = "tagged", cascade = CascadeType.ALL)
     private List<Kwet> heartedKwets;
