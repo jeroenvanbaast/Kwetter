@@ -41,7 +41,7 @@ public class StartUp {
     }
 
     public void putDummyData() {
-        AccountType admin = new AccountType("admins");
+        AccountType admin = new AccountType("admin");
         AccountType userType = new AccountType("users");
         this.accountTypeService.create(admin);
         this.accountTypeService.create(userType);

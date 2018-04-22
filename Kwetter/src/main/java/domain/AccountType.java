@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,23 +23,20 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @XmlRootElement
-public class AccountType implements Serializable{
+public class AccountType implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Right> Rights;
 
     public AccountType() {
-        this.Rights = new ArrayList();
     }
 
     public AccountType(String name) {
         this();
-        this.name = name;        
+        this.name = name;
     }
 
     @Override
@@ -46,7 +44,6 @@ public class AccountType implements Serializable{
         return name;
     }
 
-    
     // <editor-fold defaultstate="collapsed" desc="getters en setters">
     public String getName() {
         return name;
@@ -54,14 +51,6 @@ public class AccountType implements Serializable{
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<Right> getRights() {
-        return Rights;
-    }
-
-    public void setRights(List<Right> Rights) {
-        this.Rights = Rights;
     }
 
     public long getId() {
