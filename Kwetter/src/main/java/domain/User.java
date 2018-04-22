@@ -44,7 +44,7 @@ public class User implements Serializable{
     @OneToOne(cascade = CascadeType.ALL)
     private Profile profile;
 
-    @ManyToOne()
+
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "rolename", referencedColumnName = "name")
     private AccountType accountType;
