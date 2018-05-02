@@ -36,7 +36,7 @@ public class StartUp {
 
     @PostConstruct
     public void test() {
-//        putDummyData();
+        putDummyData();
 
     }
 
@@ -48,7 +48,9 @@ public class StartUp {
         User user = new User("root", "toor");
         Profile profile = new Profile("superadmin", "Super coole bio");
         user.setProfile(profile);
-
+        profile.setProfilePicture("https://i.imgur.com/LlF3EGCb.jpg");
+        profile.setLocatie("Tilburg");
+        profile.setWebsite("http://www.ishetaltijdvoorbier.nl/");
         user.setAccountType(admin);
         User henk = new User("Henk", "wachtwoord");
         henk.setProfile(new Profile("Henk", "Henk zijn bio"));

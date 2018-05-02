@@ -30,9 +30,6 @@ public class KwetService extends KwetDao {
     
     @Override
     public void remove(Kwet kwet){
-        Profile profile = profileSerivce.getById(kwet.getProfile().getId());
-        profile.getKwets().remove(kwet);
-        profileSerivce.update(profile);
         super.remove(kwet);
     }
 }

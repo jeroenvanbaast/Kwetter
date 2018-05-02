@@ -15,6 +15,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -23,7 +25,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Jeroen
  */
 @Entity
-
+@NamedQueries({
+@NamedQuery(name = "profile.findByName", query = "SELECT p FROM Profile p WHERE p.name = :name")})
 @XmlRootElement
 public class Profile implements Serializable{
 
@@ -33,7 +36,7 @@ public class Profile implements Serializable{
     
     private String name;
     private Boolean publicName;
-    private File profilePicture;
+    private String profilePicture;
     private Boolean publicProfilePicture;
     private String bio;
     private Boolean publicBio;
@@ -103,11 +106,11 @@ public class Profile implements Serializable{
         this.name = name;
     }
 
-    public File getProfilePicture() {
+    public String getProfilePicture() {
         return profilePicture;
     }
 
-    public void setProfilePicture(File profilePicture) {
+    public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
     }
 

@@ -1,21 +1,43 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {FormsModule} from '@angular/forms'; // <-- NgModel lives here
+import {RouterModule, Routes} from '@angular/router';
+import {AppComponent} from './app.component';
+import {ProfileComponent} from './profile/profile.component';
+import {LoginComponent} from './login/login.component';
+import {ProfileService} from './services/profileService';
+import {LoginService} from './services/loginService';
+import {P} from "@angular/core/src/render3";
+import {HttpClientModule} from "@angular/common/http";
 
-import { AppComponent } from './app.component';
-import { ProfileComponent } from './profile/profile.component';
-
+const appRoutes: Routes = [
+  {path: 'login', component: LoginComponent},
+  {path: 'profile/:username', component: ProfileComponent},
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
+  },
+  {path: '**', component: LoginComponent}
+];
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProfileComponent
+    ProfileComponent,
+    LoginComponent
   ],
   imports: [
+    RouterModule.forRoot(
+      appRoutes,
+      {enableTracing: true} // <-- debugging purposes only
+    ),
     BrowserModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [LoginService, ProfileService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

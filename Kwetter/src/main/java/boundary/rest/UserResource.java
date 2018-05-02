@@ -45,6 +45,14 @@ public class UserResource {
         return user;
     }
 
+    @GET
+    @Path("/login")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User login() {
+        User user = new User();
+        return user;
+    }
+
     @PUT
     public void putUser(@QueryParam("userName") String userName, @QueryParam("passwordHash") String passwordHash) {
         User user = new User(userName, passwordHash);
