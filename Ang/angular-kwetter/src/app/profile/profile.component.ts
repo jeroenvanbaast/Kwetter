@@ -31,7 +31,8 @@ export class ProfileComponent implements OnInit {
   }
 
   sendKwet(){
-  this.kwetService.sendKwet(this.profile,this.message);
+    this.kwetService.sendKwet(this.profile,this.message);
+    console.log(this.message);
   }
 
 }

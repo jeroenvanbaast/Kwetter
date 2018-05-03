@@ -52,8 +52,9 @@ public class KwetResource {
     }
 
     @PUT
-    public void putKwet(@QueryParam("message") String message, @PathParam("profileId") long profileId) {
-        Profile profile = profileService.getById(profileId);
+    public void putKwet(@QueryParam("message") String message, @PathParam("profileId") String profileId) {
+         System.out.println("put kwet zooi" + message + profileId);
+        Profile profile = profileService.getById(Long.valueOf(profileId));       
         Kwet kwet = new Kwet(message, profile);
         service.create(kwet);
     }

@@ -12,6 +12,7 @@ export class KwetService {
   }
 
   sendKwet(profile: Profile, message: string) : Observable<Kwet> {
+    console.log(message);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -22,6 +23,6 @@ export class KwetService {
       headers,
       params
     };
-    return this.url.put<Kwet>(this.url,null,options);
+    return this.http.put<Kwet>(this.url,null,options);
   }
 }

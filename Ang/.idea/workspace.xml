@@ -17,8 +17,8 @@
       <file leaf-file-name="profile.component.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/angular-kwetter/src/app/profile/profile.component.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="31" selection-start-line="31" selection-end-line="31" />
+            <state relative-caret-position="544">
+              <caret line="32" column="2" selection-start-line="32" selection-start-column="2" selection-end-line="32" selection-end-column="2" />
               <folding>
                 <element signature="e#0#48#0" expanded="true" />
               </folding>
@@ -26,22 +26,47 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="profile.component.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="profile.component.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/angular-kwetter/src/app/profile/profile.component.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1139">
-              <caret line="67" column="100" selection-start-line="67" selection-start-column="100" selection-end-line="67" selection-end-column="100" />
+            <state relative-caret-position="425">
+              <caret line="68" column="99" lean-forward="true" selection-start-line="68" selection-start-column="99" selection-end-line="68" selection-end-column="99" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="kwetService.ts" pinned="false" current-in-tab="true">
+      <file leaf-file-name="kwetService.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/angular-kwetter/src/app/services/kwetService.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="459">
-              <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+            <state relative-caret-position="204">
+              <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.component.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/angular-kwetter/src/app/app.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="1" column="53" lean-forward="true" selection-start-line="1" selection-start-column="53" selection-end-line="1" selection-end-column="53" />
+              <folding>
+                <element signature="e#0#50#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.module.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/angular-kwetter/src/app/app.module.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="663">
+              <caret line="39" column="55" selection-start-line="39" selection-start-column="55" selection-end-line="39" selection-end-column="55" />
+              <folding>
+                <element signature="e#0#56#0" expanded="true" />
+                <element signature="e#167#220#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -78,11 +103,11 @@
         <option value="$PROJECT_DIR$/angular-kwetter/src/app/login/login.component.ts" />
         <option value="$PROJECT_DIR$/angular-kwetter/src/app/services/loginService.ts" />
         <option value="$PROJECT_DIR$/angular-kwetter/src/app/models/kwet.ts" />
-        <option value="$PROJECT_DIR$/angular-kwetter/src/app/profile/profile.component.html" />
         <option value="$PROJECT_DIR$/angular-kwetter/src/app/services/profileService.ts" />
+        <option value="$PROJECT_DIR$/angular-kwetter/src/app/app.module.ts" />
         <option value="$PROJECT_DIR$/angular-kwetter/src/app/profile/profile.component.ts" />
         <option value="$PROJECT_DIR$/angular-kwetter/src/app/services/kwetService.ts" />
-        <option value="$PROJECT_DIR$/angular-kwetter/src/app/app.module.ts" />
+        <option value="$PROJECT_DIR$/angular-kwetter/src/app/profile/profile.component.html" />
       </list>
     </option>
   </component>
@@ -215,12 +240,12 @@
       <workItem from="1525116131447" duration="646000" />
       <workItem from="1525247875197" duration="17421000" />
       <workItem from="1525334744462" duration="2628000" />
-      <workItem from="1525339168248" duration="34000" />
+      <workItem from="1525339168248" duration="5524000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28104000" />
+    <option name="totallyTimeSpent" value="33594000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -586,7 +611,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/angular-kwetter/src/app/profile/profile.component.spec.ts">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#73#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/angular-kwetter/src/app/models/kwet.ts">
       <provider selected="true" editor-type-id="text-editor">
@@ -598,6 +629,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/angular-kwetter/src/app/app.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/angular-kwetter/src/app/services/kwetService.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/angular-kwetter/src/app/services/profileService.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -605,23 +653,6 @@
           <folding>
             <element signature="e#0#44#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/angular-kwetter/src/app/profile/profile.component.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
-          <folding>
-            <element signature="e#0#48#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/angular-kwetter/src/app/profile/profile.component.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1139">
-          <caret line="67" column="100" selection-start-line="67" selection-start-column="100" selection-end-line="67" selection-end-column="100" />
         </state>
       </provider>
     </entry>
@@ -638,28 +669,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/angular-kwetter/src/app/app.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="38" selection-start-line="11" selection-start-column="38" selection-end-line="11" selection-end-column="38" />
+        <state relative-caret-position="17">
+          <caret line="1" column="53" lean-forward="true" selection-start-line="1" selection-start-column="53" selection-end-line="1" selection-end-column="53" />
           <folding>
             <element signature="e#0#50#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/angular-kwetter/src/app/app.component.html">
+    <entry file="file://$PROJECT_DIR$/angular-kwetter/src/app/profile/profile.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="16" column="9" selection-start-line="16" selection-start-column="9" selection-end-line="16" selection-end-column="9" />
+        <state relative-caret-position="544">
+          <caret line="32" column="2" selection-start-line="32" selection-start-column="2" selection-end-line="32" selection-end-column="2" />
+          <folding>
+            <element signature="e#0#48#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/angular-kwetter/src/app/services/kwetService.ts">
+    <entry file="file://$PROJECT_DIR$/angular-kwetter/src/app/profile/profile.component.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="425">
+          <caret line="68" column="99" lean-forward="true" selection-start-line="68" selection-start-column="99" selection-end-line="68" selection-end-column="99" />
         </state>
       </provider>
     </entry>
