@@ -7,6 +7,7 @@ import {ProfileComponent} from './profile/profile.component';
 import {LoginComponent} from './login/login.component';
 import {ProfileService} from './services/profileService';
 import {LoginService} from './services/loginService';
+import {KwetService} from './services/kwetService';
 import {P} from "@angular/core/src/render3";
 import {HttpClientModule} from "@angular/common/http";
 
@@ -36,7 +37,7 @@ const appRoutes: Routes = [
     FormsModule,
     HttpClientModule
   ],
-  providers: [LoginService, ProfileService],
+  providers: [LoginService, ProfileService, KwetService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -46,8 +46,8 @@ public class KwetResource {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Kwet getKwetById(@PathParam("id") long id) {
-        Kwet kwet = service.getById(id);
+    public Kwet getKwetById(@PathParam("id") String id) {
+        Kwet kwet = service.getById(Long.valueOf(id));
         return kwet;
     }
 

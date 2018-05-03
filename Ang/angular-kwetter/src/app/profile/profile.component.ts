@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Profile} from '../models/profile'
 import {User} from '../models/user';
 import {ProfileService} from "../services/profileService";
+import {KwetService} from "../services/kwetService";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
@@ -13,8 +14,9 @@ export class ProfileComponent implements OnInit {
   userName : string;
   profile : Profile;
   user : User;
+  message : string;
 
-  constructor(private route: ActivatedRoute, private profileSerivce : ProfileService) {
+  constructor(private route: ActivatedRoute, private profileSerivce : ProfileService, private kwetService : KwetService) {
     window.console.log('FROM constructor()');
   }
 
@@ -26,6 +28,10 @@ export class ProfileComponent implements OnInit {
       }
     });
     window.console.log('FROM ngOnInit()');
+  }
+
+  sendKwet(){
+  this.kwetService.sendKwet(this.profile,this.message);
   }
 
 }
