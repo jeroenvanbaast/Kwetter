@@ -10,7 +10,7 @@
   }
 </style>
 <body class="w3-theme-l5">
-<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
+<div class="w3-container w3-content" *ngIf="profile != null" style="max-width:1400px;margin-top:20px">
   <!-- The Grid -->
   <div class="w3-row">
     <!-- Left Column -->
@@ -22,33 +22,46 @@
           <p class="w3-center"><img src="{{profile.profilePicture}}" class="w3-circle" style="height:106px;width:106px"
                                     alt="Avatar"></p>
           <hr>
-          <p><i class="fa fa-user fa-fw w3-margin-right w3-text-theme"></i> {{profile.name}}</p>
-          <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> {{profile.locatie}}</p>
-          <p><i class="fa fa-internet-explorer fa-fw w3-margin-right w3-text-theme"></i> {{profile.website}}</p>
+          <div *ngIf="!editMode">
+            <p><i class="fa fa-user fa-fw w3-margin-right w3-text-theme"></i> {{profile.name}}</p>
+            <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> {{profile.locatie}}</p>
+            <p><i class="fa fa-internet-explorer fa-fw w3-margin-right w3-text-theme"></i> {{profile.website}}</p>
+            <div *ngIf="profile.id == userProfileId" class="w3-center">
+              <button type="button" class="w3-button w3-theme" (click)="editModeChange()"><i class="fa fa-pencil"></i>
+                 edit
+              </button>
+            </div>
+          </div>
+          <div *ngIf="editMode">
+            <p><i class="fa fa-image fa-fw w3-margin-right w3-text-theme"></i> <input [(ngModel)]="profile.profilePicture"></p>
+            <p><i class="fa fa-user fa-fw w3-margin-right w3-text-theme"></i> <input [(ngModel)]="profile.name"></p>
+            <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> <input [(ngModel)]="profile.locatie"></p>
+            <p><i class="fa fa-internet-explorer fa-fw w3-margin-right w3-text-theme"></i> <input
+              [(ngModel)]="profile.website"></p>
+            <button type="button" class="w3-button w3-theme" (click)="updateProfile()"><i class="fa fa-pencil"></i>
+               update
+            </button>
+          </div>
+          <div *ngIf="profile.id != userProfileId && userProfileId != null" class="w3-center">
+            <button type="button" class="w3-button w3-theme" (click)="follow()"><i class="fa fa-user-plus"></i>  Follow
+            </button>
+          </div>
+
         </div>
       </div>
       <br>
-      <!-- Accordion -->
-      <div class="w3-card w3-round">
-        <div class="w3-white">
-          <button onclick="myFunction('Demo1')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i
-            class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Following
-          </button>
-          <div id="Demo1" class="w3-hide w3-container">
-            <ng-container *ngFor="let following of profile.following">
-              <p> {{following.name}}</p>
-            </ng-container>
-            <p> test</p>
-          </div>
-        </div>
-      </div>
-      <br><!-- Interests -->
+      <br><!-- Bio -->
       <div class="w3-card w3-round w3-white w3-hide-small">
         <div class="w3-container">
           <p>Bio</p>
-          <p>
-            {{profile.bio}}
-          </p>
+
+          <div *ngIf="!editMode">
+            <p> {{profile.bio}} </p>
+          </div>
+          <div *ngIf="editMode">
+            <p><textarea [(ngModel)]="profile.bio"></textarea></p>
+          </div>
+
         </div>
       </div>
       <br>
@@ -58,44 +71,61 @@
 
     <!-- Middle Column -->
     <div class="w3-col m7">
-
       <div class="w3-row-padding">
         <div class="w3-col m12">
-          <div class="w3-card w3-round w3-white">
-            <div class="w3-container w3-padding">
-              <h6 class="w3-opacity">plaats bericht</h6>
-              <input type="text" [(ngModel)]="message">
-              <!--<p contenteditable="true" class="w3-border w3-padding" [(ngModel)]="message"></p>-->
-              <button type="button" class="w3-button w3-theme" (click)="sendKwet()"><i class="fa fa-pencil"></i>  Post</button>
+          <div *ngIf="profile.id == userProfileId">
+            <div class="w3-card w3-round w3-white">
+              <div class="w3-container w3-padding">
+                <h6 class="w3-opacity">plaats bericht</h6>
+                <input type="text" [(ngModel)]="message">
+                <!--<p contenteditable="true" class="w3-border w3-padding" [(ngModel)]="message"></p>-->
+                <button type="button" class="w3-button w3-theme" (click)="sendKwet()"><i class="fa fa-pencil"></i>  Post
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <li *ngFor="let kwet of profile.kwets">
+
+      <div *ngFor="let kwet of profile.kwets">
         <div class="w3-container w3-card w3-white w3-round w3-margin"><br>
           <!--<img src="/w3images/avatar2.png" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px">-->
           <span class="w3-right w3-opacity">{{kwet.placedDate}}</span>
           <h4>{{kwet.profileName}}</h4><br>
           <hr class="w3-clear">
           <p>{{kwet.message}}</p>
-          <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Like
+          <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" (click)="likeKwet(kwet.id)" *ngIf="userProfileId != null"><i
+            class="fa fa-thumbs-up"></i>  Like
           </button>
         </div>
-      </li>
+      </div>
       <!-- End Middle Column -->
     </div>
+
 
     <!-- Right Column -->
     <div class="w3-col m2">
       <div class="w3-card w3-round w3-white w3-center">
         <div class="w3-container">
-          <p>Upcoming Events:</p>
-          <p><strong>Holiday</strong></p>
-          <p>Friday 15:00</p>
-          <p>
-            <button class="w3-button w3-block w3-theme-l4">Info</button>
-          </p>
+          <p>Following:</p>
+          <div  *ngIf="user != null">
+            <div *ngFor="let item of user.following">
+              <a (click)="goToProfile(item.name)"><img src="{{item.profilePicture}}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br>
+
+      <div class="w3-card w3-round w3-white w3-center">
+        <div class="w3-container">
+          <p>Followers:</p>
+          <div  *ngIf="user != null">
+            <div *ngFor="let item of followers">
+              <a (click)="goToProfile(item.name)"><img src="{{item.profilePicture}}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px"></a>
+            </div>
+          </div>
         </div>
       </div>
       <br>

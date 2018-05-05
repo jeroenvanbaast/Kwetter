@@ -4,7 +4,7 @@ import {AccountType} from './accounttype'
 export class User {
   id: number;
   userName: string;
-
+  following: Profile[];
   profile: Profile;
   accountType: AccountType;
 

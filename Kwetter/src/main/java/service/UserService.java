@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import javax.inject.Inject;
 import javax.xml.bind.DatatypeConverter;
 
 /**
@@ -25,11 +26,23 @@ import javax.xml.bind.DatatypeConverter;
 @Stateless
 public class UserService extends UserDao {
 
+    @Inject
+    private ProfileService profileService;
+    
     public ArrayList<User> getAll() {
         Query query = this.entityManager.createQuery("SELECT u FROM User u");
         return new ArrayList<>(query.getResultList());
     }
 
+    public User login(String userName, String password){
+        String passwordHash = encodeSHA256(password);
+        return super.checkLogin(userName, passwordHash);
+    }
+    
+    public User findByProfileName(String name){
+       return super.findByProfile(profileService.getByName(name));
+    }
+    
     /**
      * Returns SHA-256 encoded string
      *

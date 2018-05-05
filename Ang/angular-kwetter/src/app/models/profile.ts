@@ -10,7 +10,7 @@ export class Profile {
 
   kwets: Kwet[];
   heartedKwets: Kwet[];
-  following: Profile[];
+
 
   construct(name: string, bio: string, id: number) {
     this.bio = bio;

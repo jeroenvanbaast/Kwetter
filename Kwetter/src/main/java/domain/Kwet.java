@@ -18,7 +18,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @NamedQueries({
-@NamedQuery(name = "kwet.findByMessage", query = "SELECT k FROM Kwet k WHERE k.message = :message"),
+    @NamedQuery(name = "kwet.findByMessage", query = "SELECT k FROM Kwet k WHERE k.message = :message")
+    ,
 @NamedQuery(name = "kwet.getAllFlagged", query = "SELECT k FROM Kwet k WHERE k.flagged = TRUE")
 })
 
@@ -41,9 +42,11 @@ public class Kwet implements Serializable {
     public Kwet() {
         hashTags = new ArrayList();
         tagged = new ArrayList();
+        this.setPlacedDate(new Date());
     }
 
     public Kwet(String message, Profile profile) {
+        this();
         this.message = message;
         this.profileName = profile.getName();
         hashTags = new ArrayList();

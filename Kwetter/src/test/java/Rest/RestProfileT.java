@@ -79,29 +79,29 @@ public class RestProfileT {
                 body("name", equalTo("updateTest"));
     }
 
-    @Test
-    public void cfollow() throws IOException {
-        //put data
-        io.restassured.RestAssured.put("http://localhost:8080/Kwetter/api/profiles?name=test2&bio=test2");
-        // follow profile
-        post("http://localhost:8080/Kwetter/api/profiles/1/follow?followerId=2");
-
-        // check follow
-        JsonPath jsonPath = get("http://localhost:8080/Kwetter/api/profiles").jsonPath();
-        List<Profile> profiles = jsonPath.getList("", Profile.class);
-        assertEquals(profiles.get(0).getFollowing().size(), 1);
-
-        // unfollow profile
-        delete("http://localhost:8080/Kwetter/api/profiles/1/follow?followerId=2");
-
-        //check unfollow
-        JsonPath jsonPath2 = get("http://localhost:8080/Kwetter/api/profiles").jsonPath();
-        List<Profile> profiles2 = jsonPath2.getList("", Profile.class);
-        assertEquals(profiles2.get(0).getFollowing().size(), 0);
-        
-        // delete profile
-         delete("http://localhost:8080/Kwetter/api/profiles/2");
-    }
+//    @Test
+//    public void cfollow() throws IOException {
+//        //put data
+//        io.restassured.RestAssured.put("http://localhost:8080/Kwetter/api/profiles?name=test2&bio=test2");
+//        // follow profile
+//        post("http://localhost:8080/Kwetter/api/profiles/1/follow?followerId=2");
+//
+//        // check follow
+//        JsonPath jsonPath = get("http://localhost:8080/Kwetter/api/profiles").jsonPath();
+//        List<Profile> profiles = jsonPath.getList("", Profile.class);
+//        assertEquals(profiles.get(0).getFollowing().size(), 1);
+//
+//        // unfollow profile
+//        delete("http://localhost:8080/Kwetter/api/profiles/1/follow?followerId=2");
+//
+//        //check unfollow
+//        JsonPath jsonPath2 = get("http://localhost:8080/Kwetter/api/profiles").jsonPath();
+//        List<Profile> profiles2 = jsonPath2.getList("", Profile.class);
+//        assertEquals(profiles2.get(0).getFollowing().size(), 0);
+//        
+//        // delete profile
+//         delete("http://localhost:8080/Kwetter/api/profiles/2");
+//    }
 
     @Test
     public void dheart() {

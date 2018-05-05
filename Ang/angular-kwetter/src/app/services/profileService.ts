@@ -15,5 +15,53 @@ export class ProfileService {
     return this.http.get<Profile>(this.url + 'byname/' + username);
   }
 
+  getFollowers(profileId : string) : Observable<Profile[]>{
+    return this.http.get<Profile[]>(this.url + 'getfollowers/' + profileId);
+  }
+
+  updateProfile(profileId : string, profileName : string, bio : string , location : string, website : string, picture : string) : Observable<Profile>{
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    const params = new HttpParams()
+      .set('name', profileName)
+      .set('bio', bio)
+      .set('locatie', location)
+      .set('website', website)
+      .set('picture', picture);
+    const options = {
+      headers,
+      params
+    };
+    console.log(this.url + profileId);
+    return this.http.post<Profile>(this.url + profileId,null,options);
+  }
+
+  follow(currentUserProfileId : string, profileId : string) : Observable<Profile>{
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    const params = new HttpParams()
+      .set('followerid', profileId);
+    const options = {
+      headers,
+      params
+    };
+    return this.http.post<Profile>(this.url + currentUserProfileId + '/follow', null, options);
+  }
+
+  likeKwet(currentUserProfileId : string, kwetId : string){
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    const params = new HttpParams()
+      .set('kwetid', kwetId);
+    const options = {
+      headers,
+      params
+    };
+  return this.http.post(this.url+ currentUserProfileId + '/heart/' , null,options);
+  }
+
 
 }

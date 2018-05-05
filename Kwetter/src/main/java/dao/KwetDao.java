@@ -31,8 +31,7 @@ public abstract class KwetDao extends AbstractDao<Kwet> {
     }
     
     @Override
-    public Kwet create(Kwet kwet){
-        kwet.setPlacedDate(new Date());
+    public Kwet create(Kwet kwet){       
         return super.create(kwet);
     }
 

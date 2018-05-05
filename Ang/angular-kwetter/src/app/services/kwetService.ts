@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Kwet} from "../models/kwet";
 import {Profile} from "../models/profile";
 import {Observable} from "rxjs/Observable";
+import { DatePipe } from '@angular/common';
 
 @Injectable()
 export class KwetService {
@@ -12,7 +13,6 @@ export class KwetService {
   }
 
   sendKwet(profile: Profile, message: string) : Observable<Kwet> {
-    console.log(message);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -23,6 +23,8 @@ export class KwetService {
       headers,
       params
     };
-    return this.http.put<Kwet>(this.url,null,options);
+    console.log(this.url + params.get('message') + params.get('profileId'))
+    return this.http.put<Kwet>(this.url,null, options);
   }
+
 }

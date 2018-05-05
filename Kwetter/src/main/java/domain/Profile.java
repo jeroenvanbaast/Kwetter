@@ -5,6 +5,7 @@
  */
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -49,13 +50,12 @@ public class Profile implements Serializable{
     private List<Kwet> kwets;
     @ManyToMany(mappedBy = "tagged", cascade = CascadeType.ALL)
     private List<Kwet> heartedKwets;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Profile> following;
+  
     
     public Profile() {
         this.kwets = new ArrayList();
-        this.heartedKwets = new ArrayList();
-        this.following = new ArrayList();
+        this.heartedKwets = new ArrayList();       
+        this.profilePicture = "https://cdn2.iconfinder.com/data/icons/cute-boy-face/1000/cute_boy_face-04-512.png";
     }
     
     public Profile(String name, String bio){
@@ -67,14 +67,6 @@ public class Profile implements Serializable{
     public Kwet placeKwet(Kwet kwet) {
         this.kwets.add(kwet);
         return kwet;
-    }
-    
-    public void follow(Profile profile){
-        this.following.add(profile);
-    }
-    
-    public void unFollow(Profile profile){
-        this.following.remove(profile);
     }
     
     public void giveHearth(Kwet kwet){
@@ -152,14 +144,6 @@ public class Profile implements Serializable{
 
     public void setHeartedKwets(List<Kwet> heartedKwets) {
         this.heartedKwets = heartedKwets;
-    }
-
-    public List<Profile> getFollowing() {
-        return following;
-    }
-
-    public void setFollowing(List<Profile> following) {
-        this.following = following;
     }
 
     public Boolean getPublicName() {

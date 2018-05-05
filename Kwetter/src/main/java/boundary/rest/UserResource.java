@@ -48,9 +48,11 @@ public class UserResource {
     @GET
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
-    public User login() {
-        User user = new User();
-        return user;
+    public User login(@QueryParam("username") String username, @QueryParam("password") String password) {
+        if (username == null || password == null) {
+            return null;
+        }
+        return service.login(username, password);
     }
 
     @PUT
@@ -73,5 +75,19 @@ public class UserResource {
     public void deleteUser(@PathParam("id") long id) {
         User user = service.getById(id);
         service.remove(user);
+    }
+    
+    @GET
+    @Path("byname/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getByName(@PathParam("name") String name){
+        return service.findByName(name);
+    }
+    
+    @GET
+    @Path("byprofilename/{name}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public User getByProfileName(@PathParam("name") String name){
+        return service.findByProfileName(name);
     }
 }

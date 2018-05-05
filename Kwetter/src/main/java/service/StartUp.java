@@ -36,7 +36,7 @@ public class StartUp {
 
     @PostConstruct
     public void test() {
-        putDummyData();
+//        putDummyData();
 
     }
 
@@ -62,7 +62,7 @@ public class StartUp {
         this.userService.create(henk);
         this.userService.create(jan);
         this.profileService.create(profile);
-         Kwet kwet = new Kwet("Dit is een test kwet ****",profile);
+        Kwet kwet = new Kwet("Dit is een test kwet ****",profile);
         kwet.setFlagged(true);
         profile.placeKwet(kwet);
         this.kwetService.create(kwet);

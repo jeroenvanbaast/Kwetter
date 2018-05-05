@@ -10,10 +10,14 @@ import {LoginService} from './services/loginService';
 import {KwetService} from './services/kwetService';
 import {P} from "@angular/core/src/render3";
 import {HttpClientModule} from "@angular/common/http";
+import { LogoutComponent } from './logout/logout.component';
+import {UserService} from "./services/userService";
 
 const appRoutes: Routes = [
   {path: 'login', component: LoginComponent},
+  {path: 'logout', component: LogoutComponent},
   {path: 'profile/:username', component: ProfileComponent},
+  {path: 'profile', component: ProfileComponent},
   {
     path: '',
     redirectTo: '/login',
@@ -26,18 +30,19 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     ProfileComponent,
-    LoginComponent
+    LoginComponent,
+    LogoutComponent
   ],
   imports: [
     RouterModule.forRoot(
       appRoutes,
-      {enableTracing: true} // <-- debugging purposes only
+      {enableTracing: false} // <-- debugging purposes only
     ),
     BrowserModule,
     FormsModule,
     HttpClientModule
   ],
-  providers: [LoginService, ProfileService, KwetService],
+  providers: [LoginService, ProfileService, KwetService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

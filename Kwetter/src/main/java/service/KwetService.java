@@ -32,4 +32,9 @@ public class KwetService extends KwetDao {
     public void remove(Kwet kwet){
         super.remove(kwet);
     }
+    
+    @Override
+    public Kwet create(Kwet kwet){
+        return super.create(kwet);
+    }
 }

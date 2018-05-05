@@ -68,7 +68,8 @@ public class ProfileResource {
     @Path("byname/{name}")
     @Produces(MediaType.APPLICATION_JSON)
     public Profile getByProfileName(@PathParam("name") String name) {
-        return service.getByName(name);
+        Profile p = service.getByName(name);
+        return p;
     }
 
     @PUT
@@ -79,13 +80,15 @@ public class ProfileResource {
 
     @POST
     @Path("{id}")
-    public void updateProfile(@PathParam("id") long id, @QueryParam("name") String name, @QueryParam("bio") String bio, @QueryParam("locatie") String locatie, @QueryParam("website") String website) {
+    public Profile updateProfile(@PathParam("id") long id, @QueryParam("name") String name, @QueryParam("bio") String bio, @QueryParam("locatie") String locatie, @QueryParam("website") String website, @QueryParam("picture") String picture) {
         Profile profile = service.getById(id);
         profile.setName(name);
         profile.setBio(bio);
+        profile.setProfilePicture(picture);
         profile.setLocatie(locatie);
         profile.setWebsite(website);
         service.update(profile);
+        return profile;
     }
 
     @DELETE
@@ -96,25 +99,27 @@ public class ProfileResource {
 
     @POST
     @Path("{id}/follow")
-    public void follow(@PathParam("id") int id, @QueryParam("followerId") int followerId) {
+    public void follow(@PathParam("id") int id, @QueryParam("followerid") int followerId) {
         Profile profile = service.getById(id);
+        User user = userService.findByProfile(profile);
         Profile follower = service.getById(followerId);
-        profile.getFollowing().add(follower);
-        service.update(profile);
+        user.getFollowing().add(follower);
+        userService.update(user);
     }
 
     @DELETE
     @Path("{id}/follow")
     public void unFollow(@PathParam("id") int id, @QueryParam("followerId") int followerId) {
         Profile profile = service.getById(id);
+        User user = userService.findByProfile(profile);
         Profile follower = service.getById(followerId);
-        profile.getFollowing().remove(follower);
-        service.update(profile);
+        user.getFollowing().remove(follower);
+        userService.update(user);
     }
 
     @POST
     @Path("{id}/heart")
-    public void heart(@PathParam("id") int id, @QueryParam("kwetId") int kwetId) {
+    public void heart(@PathParam("id") int id, @QueryParam("kwetid") int kwetId) {
         Kwet kwet = kwetService.getById(kwetId);
         Profile profile = service.getById(id);
         profile.getHeartedKwets().add(kwet);
@@ -123,10 +128,18 @@ public class ProfileResource {
 
     @DELETE
     @Path("{id}/heart")
-    public void unHeart(@PathParam("id") int id, @QueryParam("kwetId") int kwetId) {
+    public void unHeart(@PathParam("id") int id, @QueryParam("kwetid") int kwetId) {
         Kwet kwet = kwetService.getById(kwetId);
         Profile profile = service.getById(id);
         profile.getHeartedKwets().remove(kwet);
         service.update(profile);
+    }
+
+    @GET
+    @Path("getfollowers/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Profile> getFollowers(@PathParam("id") int id) {
+        Profile profile = service.getById(id);
+        return service.getProfilesFromUsers(userService.findFollowers(profile));
     }
 }

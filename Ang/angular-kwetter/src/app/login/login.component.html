@@ -1,19 +1,27 @@
 <form action="/action_page.php">
   <!--<div class="imgcontainer">-->
-    <!--<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq1n9b-MK5TrmJ1FtP2TB1VjsFSVwjppjO_IiwB9fikR_1ZAnp" alt="Avatar" class="avatar">-->
+  <!--<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTq1n9b-MK5TrmJ1FtP2TB1VjsFSVwjppjO_IiwB9fikR_1ZAnp" alt="Avatar" class="avatar">-->
   <!--</div>-->
+  <style>
+    html, body, h1, h2, h3, h4, h5 {
+      font-family: "Open Sans", sans-serif
+    }
+  </style>
+  <body class="w3-theme-l5">
+  <div class="w3-container w3-content" style="max-width:1400px;margin-top:20px">
+    <div class="container">
+      <label><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="uname" required [(ngModel)]="username">
 
-  <div class="container">
-    <label><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" name="uname" required>
+      <label><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" required [(ngModel)]="password">
 
-    <label><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
-
-    <button type="submit">Login</button>
-    <!--<label>-->
+      <input type="submit" value="login" (click)="Login()">
+      <!--<label>-->
       <!--<input type="checkbox" checked="checked" name="remember"> Remember me-->
-    <!--</label>-->
+      <!--</label>-->
+    </div>
   </div>
+  </body>
 
 </form>

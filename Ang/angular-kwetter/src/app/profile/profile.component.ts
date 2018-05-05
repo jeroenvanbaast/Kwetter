@@ -3,7 +3,8 @@ import {Profile} from '../models/profile'
 import {User} from '../models/user';
 import {ProfileService} from "../services/profileService";
 import {KwetService} from "../services/kwetService";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {UserService} from "../services/userService";
 
 @Component({
   selector: 'app-profile',
@@ -11,28 +12,81 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  userName : string;
-  profile : Profile;
-  user : User;
-  message : string;
+  userName: string;
+  profile: Profile;
+  followers: Profile[];
+  user: User;
+  userProfileId: string;
+  editMode: boolean;
+  message: string;
 
-  constructor(private route: ActivatedRoute, private profileSerivce : ProfileService, private kwetService : KwetService) {
-    window.console.log('FROM constructor()');
+  constructor(private route: ActivatedRoute, private profileSerivce: ProfileService, private userService: UserService, private kwetService: KwetService, private router: Router) {
+
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => { this.userName = params['username']; });
-    this.profileSerivce.getPorfile(this.userName).subscribe(data => {
+    this.route.params.subscribe(params => {
+      this.userName = params['username'];
+    });
+    if (this.userName == null) {
+      this.userName = localStorage.getItem('profileName')
+    }
+    this.getinfo(this.userName);
+    this.userProfileId = localStorage.getItem('userPorfileId');
+  }
+
+  getinfo(name: string) {
+    var id : string;
+    this.profileSerivce.getPorfile(name).subscribe(data => {
+      if (data != null) {
+        this.profile = data;
+        id = String(data.id);
+        this.profileSerivce.getFollowers(String(id)).subscribe((data => {
+          if (data != null) {
+            this.followers = data;
+          }
+        }))
+      }
+    });
+    this.userService.getUserByProfileName(name).subscribe(data => {
+      if (data != null) {
+        this.user = data;
+      }
+    });
+  }
+
+  sendKwet() {
+    this.kwetService.sendKwet(this.profile, this.message).subscribe(data => {
+      if (data != null) {
+        this.profile.kwets.push(data);
+      }
+    });
+
+  }
+
+  follow() {
+    this.profileSerivce.follow(this.userProfileId, String(this.profile.id)).subscribe();
+  }
+
+  likeKwet(kwetId: string) {
+    this.profileSerivce.likeKwet(this.userProfileId, kwetId).subscribe();
+  }
+
+  editModeChange() {
+    this.editMode = !this.editMode;
+  }
+
+  updateProfile() {
+    this.profileSerivce.updateProfile(String(this.profile.id), this.profile.name, this.profile.bio, this.profile.locatie, this.profile.website, this.profile.profilePicture).subscribe(data => {
       if (data != null) {
         this.profile = data;
       }
     });
-    window.console.log('FROM ngOnInit()');
+    this.editMode = false;
   }
 
-  sendKwet(){
-    this.kwetService.sendKwet(this.profile,this.message);
-    console.log(this.message);
+  goToProfile(name: string) {
+    this.router.navigate(['/profile', name]);
+    this.getinfo(name);
   }
-
 }

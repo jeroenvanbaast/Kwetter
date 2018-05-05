@@ -47,11 +47,11 @@ public class ProfileTest {
     // public void hello() {}
     
     
-    @Test
-    public void testFollow(){
-        Profile profile2 = new Profile();
-        profile.follow(profile2);
-        assertEquals(profile2,profile.getFollowing().get(0));
-    }
+//    @Test
+//    public void testFollow(){
+//        Profile profile2 = new Profile();
+//        profile.follow(profile2);
+//        assertEquals(profile2,profile.getFollowing().get(0));
+//    }
    
 }
