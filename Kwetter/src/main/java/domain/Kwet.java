@@ -38,6 +38,7 @@ public class Kwet implements Serializable {
     private List<HashTag> hashTags;
     @ManyToMany()
     private List<Profile> tagged;
+    private int likes;
 
     public Kwet() {
         hashTags = new ArrayList();
@@ -51,6 +52,14 @@ public class Kwet implements Serializable {
         this.profileName = profile.getName();
         hashTags = new ArrayList();
         tagged = new ArrayList();
+    }
+    
+    public void Like(){
+        this.likes = likes + 1;
+    }
+    
+     public void UnLike(){
+        this.likes = likes - 1;
     }
 
     // <editor-fold defaultstate="collapsed" desc="getters en setters">
@@ -102,7 +111,14 @@ public class Kwet implements Serializable {
         this.flagged = flagged;
     }
 
-    // </editor-fold>
+    public int getLikes() {
+        return likes;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+    
     public String getProfileName() {
         return profileName;
     }
@@ -110,5 +126,5 @@ public class Kwet implements Serializable {
     public void setProfileName(String profileName) {
         this.profileName = profileName;
     }
-
+    // </editor-fold>
 }

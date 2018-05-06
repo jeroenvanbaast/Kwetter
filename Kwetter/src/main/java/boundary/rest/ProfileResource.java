@@ -84,7 +84,7 @@ public class ProfileResource {
     @POST
     @Path("{id}")
     @JWTTokenNeeded
-    public Profile updateProfile(@PathParam("id") long id, @QueryParam("name") String name, @QueryParam("bio") String bio, @QueryParam("locatie") String locatie, @QueryParam("website") String website, @QueryParam("picture") String picture, @Context  HttpHeaders headers) {
+    public Profile updateProfile(@PathParam("id") long id, @QueryParam("name") String name, @QueryParam("bio") String bio, @QueryParam("locatie") String locatie, @QueryParam("website") String website, @QueryParam("picture") String picture, @Context HttpHeaders headers) {
         Profile profile = service.getById(id);
         profile.setName(name);
         profile.setBio(bio);
@@ -126,8 +126,10 @@ public class ProfileResource {
     @Path("{id}/heart")
     public void heart(@PathParam("id") int id, @QueryParam("kwetid") int kwetId) {
         Kwet kwet = kwetService.getById(kwetId);
+        kwet.Like();
         Profile profile = service.getById(id);
         profile.getHeartedKwets().add(kwet);
+        kwetService.update(kwet);
         service.update(profile);
     }
 
@@ -135,8 +137,10 @@ public class ProfileResource {
     @Path("{id}/heart")
     public void unHeart(@PathParam("id") int id, @QueryParam("kwetid") int kwetId) {
         Kwet kwet = kwetService.getById(kwetId);
+        kwet.UnLike();
         Profile profile = service.getById(id);
         profile.getHeartedKwets().remove(kwet);
+        kwetService.update(kwet);
         service.update(profile);
     }
 
