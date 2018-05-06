@@ -23,10 +23,11 @@ export class LoginComponent implements OnInit {
       if(data != null){
         localStorage.setItem('userPorfileId', String(data.profile.id));
         localStorage.setItem('profileName', String(data.profile.name));
+        localStorage.setItem('token', data.token);
         this.router.navigate(['/profile', data.profile.name]);
+        console.log(data.token);
       }
     });
-    console.log('cool')
   }
 
 }

@@ -51,16 +51,18 @@ public class UserResource {
     @GET
     @Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response login(@QueryParam("username") String username, @QueryParam("password") String password) {     
-        try{
-        User user = service.login(username, password);
-        if(user != null){
-            String id = Long.toString(user.getId());  
-            String token = service.issueToken(id);
-            return Response.ok(user).header(AUTHORIZATION,"Bearer " + token).build();
-        }}
-        catch(Exception e){
-            
+    public Response login(@QueryParam("username") String username, @QueryParam("password") String password) {
+        if (username != null && password != null) {
+            try {
+                User user = service.login(username, password);
+                if (user != null) {
+                    String id = Long.toString(user.getId());
+                    String token = service.issueToken(id);
+                    user.setToken(token);
+                    return Response.ok(user).header(AUTHORIZATION, "Bearer " + token).build();
+                }
+            } catch (Exception e) {
+            }
         }
         return Response.status(UNAUTHORIZED).build();
     }
@@ -86,18 +88,18 @@ public class UserResource {
         User user = service.getById(id);
         service.remove(user);
     }
-    
+
     @GET
     @Path("byname/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public User getByName(@PathParam("name") String name){
+    public User getByName(@PathParam("name") String name) {
         return service.findByName(name);
     }
-    
+
     @GET
     @Path("byprofilename/{name}")
     @Produces(MediaType.APPLICATION_JSON)
-    public User getByProfileName(@PathParam("name") String name){
+    public User getByProfileName(@PathParam("name") String name) {
         return service.findByProfileName(name);
     }
 }

@@ -5,6 +5,7 @@ export class User {
   id: number;
   userName: string;
   following: Profile[];
+  token : string;
   profile: Profile;
   accountType: AccountType;
 

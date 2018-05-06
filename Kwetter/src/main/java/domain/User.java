@@ -57,6 +57,8 @@ public class User implements Serializable {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "rolename", referencedColumnName = "name")
     private AccountType accountType;
+    
+    private String token;
 
     public User() {
         this.following = new ArrayList();
@@ -114,6 +116,15 @@ public class User implements Serializable {
     public void setAccountType(AccountType accountType) {
         this.accountType = accountType;
     }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+    
 
 // </editor-fold>
     @Override

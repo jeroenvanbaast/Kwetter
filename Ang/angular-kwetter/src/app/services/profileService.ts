@@ -22,7 +22,7 @@ export class ProfileService {
   updateProfile(profileId : string, profileName : string, bio : string , location : string, website : string, picture : string) : Observable<Profile>{
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
-    });
+    }).set('AUTHORIZATION', 'Bearer ' + localStorage.getItem('token'));
     const params = new HttpParams()
       .set('name', profileName)
       .set('bio', bio)

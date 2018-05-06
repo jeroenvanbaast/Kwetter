@@ -22,5 +22,4 @@ export class LoginService{
     params = params.set('password', password);
     return this.http.get<User>(this.url + 'login/', { params : params});
   }
-
 }
