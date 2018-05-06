@@ -20,6 +20,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import jwt.JWTTokenNeeded;
 import service.KwetService;
 import service.ProfileService;
 import service.UserService;
@@ -80,6 +81,7 @@ public class ProfileResource {
 
     @POST
     @Path("{id}")
+    @JWTTokenNeeded
     public Profile updateProfile(@PathParam("id") long id, @QueryParam("name") String name, @QueryParam("bio") String bio, @QueryParam("locatie") String locatie, @QueryParam("website") String website, @QueryParam("picture") String picture) {
         Profile profile = service.getById(id);
         profile.setName(name);

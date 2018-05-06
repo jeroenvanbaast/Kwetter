@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['/profile', data.profile.name]);
       }
     });
-
+    console.log('cool')
   }
 
 }

@@ -8,8 +8,12 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 @Injectable()
 export class LoginService{
   url = 'http://localhost:8080/Kwetter/api/users/';
+  public token: string;
 
   constructor(private http: HttpClient) {
+    // set token if saved in local storage
+    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.token = currentUser && currentUser.token;
   }
 
   Login(userName : string, password : string) : Observable<User>{
