@@ -99,12 +99,13 @@ public class ProfileResource {
 
     @POST
     @Path("{id}/follow")
-    public void follow(@PathParam("id") int id, @QueryParam("followerid") int followerId) {
+    public Profile follow(@PathParam("id") int id, @QueryParam("followerid") int followerId) {
         Profile profile = service.getById(id);
         User user = userService.findByProfile(profile);
-        Profile follower = service.getById(followerId);
-        user.getFollowing().add(follower);
+        Profile toFollow = service.getById(followerId);
+        user.getFollowing().add(toFollow);
         userService.update(user);
+        return toFollow;
     }
 
     @DELETE

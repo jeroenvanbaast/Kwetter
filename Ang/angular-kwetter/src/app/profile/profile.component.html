@@ -33,7 +33,8 @@
             </div>
           </div>
           <div *ngIf="editMode">
-            <p><i class="fa fa-image fa-fw w3-margin-right w3-text-theme"></i> <input [(ngModel)]="profile.profilePicture"></p>
+            <p><i class="fa fa-image fa-fw w3-margin-right w3-text-theme"></i> <input
+              [(ngModel)]="profile.profilePicture"></p>
             <p><i class="fa fa-user fa-fw w3-margin-right w3-text-theme"></i> <input [(ngModel)]="profile.name"></p>
             <p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> <input [(ngModel)]="profile.locatie"></p>
             <p><i class="fa fa-internet-explorer fa-fw w3-margin-right w3-text-theme"></i> <input
@@ -73,9 +74,10 @@
     <div class="w3-col m7">
       <div class="w3-row-padding">
         <div class="w3-col m12">
-          <div *ngIf="profile.id == userProfileId">
-            <div class="w3-card w3-round w3-white">
-              <div class="w3-container w3-padding">
+          <div class="w3-card w3-round w3-white">
+            <div *ngIf="profile.id == userProfileId">
+            <div class="w3-container w3-padding">
+
                 <h6 class="w3-opacity">plaats bericht</h6>
                 <input type="text" [(ngModel)]="message">
                 <!--<p contenteditable="true" class="w3-border w3-padding" [(ngModel)]="message"></p>-->
@@ -95,10 +97,14 @@
           <h4>{{kwet.profileName}}</h4><br>
           <hr class="w3-clear">
           <p>{{kwet.message}}</p>
-          <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" (click)="likeKwet(kwet.id)" *ngIf="userProfileId != null"><i
+          <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom" (click)="likeKwet(kwet.id)"
+                  *ngIf="userProfileId != null"><i
             class="fa fa-thumbs-up"></i>  Like
           </button>
         </div>
+      </div>
+      <div *ngIf="profile.kwets.length == 0" style="font-size: xx-large">
+        Deze gebruiker heeft nog geen kwets geplaatst
       </div>
       <!-- End Middle Column -->
     </div>
@@ -109,9 +115,10 @@
       <div class="w3-card w3-round w3-white w3-center">
         <div class="w3-container">
           <p>Following:</p>
-          <div  *ngIf="user != null">
+          <div *ngIf="user != null">
             <div *ngFor="let item of user.following">
-              <a (click)="goToProfile(item.name)"><img src="{{item.profilePicture}}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px"></a>
+              <a (click)="goToProfile(item.name)"><img src="{{item.profilePicture}}" alt="Avatar"
+                                                       class="w3-left w3-circle w3-margin-right" style="width:60px"></a>
             </div>
           </div>
         </div>
@@ -121,40 +128,21 @@
       <div class="w3-card w3-round w3-white w3-center">
         <div class="w3-container">
           <p>Followers:</p>
-          <div  *ngIf="user != null">
+          <div *ngIf="user != null">
             <div *ngFor="let item of followers">
-              <a (click)="goToProfile(item.name)"><img src="{{item.profilePicture}}" alt="Avatar" class="w3-left w3-circle w3-margin-right" style="width:60px"></a>
+              <a (click)="goToProfile(item.name)"><img src="{{item.profilePicture}}" alt="Avatar"
+                                                       class="w3-left w3-circle w3-margin-right" style="width:60px"></a>
             </div>
           </div>
         </div>
       </div>
       <br>
 
-      <div class="w3-card w3-round w3-white w3-center">
-        <div class="w3-container">
-          <p>Friend Request</p>
-          <span>Jane Doe</span>
-          <div class="w3-row w3-opacity">
-            <div class="w3-half">
-              <button class="w3-button w3-block w3-green w3-section" title="Accept"><i class="fa fa-check"></i></button>
-            </div>
-            <div class="w3-half">
-              <button class="w3-button w3-block w3-red w3-section" title="Decline"><i class="fa fa-remove"></i></button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <br>
 
       <div class="w3-card w3-round w3-white w3-padding-16 w3-center">
         <p>ADS</p>
       </div>
       <br>
-
-      <div class="w3-card w3-round w3-white w3-padding-32 w3-center">
-        <p><i class="fa fa-bug w3-xxlarge"></i></p>
-      </div>
-
       <!-- End Right Column -->
     </div>
 

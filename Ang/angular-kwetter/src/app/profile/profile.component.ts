@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit {
   }
 
   getinfo(name: string) {
-    var id : string;
+    var id: string;
     this.profileSerivce.getPorfile(name).subscribe(data => {
       if (data != null) {
         this.profile = data;
@@ -65,7 +65,11 @@ export class ProfileComponent implements OnInit {
   }
 
   follow() {
-    this.profileSerivce.follow(this.userProfileId, String(this.profile.id)).subscribe();
+    this.profileSerivce.follow(this.userProfileId, String(this.profile.id)).subscribe( data =>{
+      if (data != null) {
+        this.profile = (data);
+      }
+    });
   }
 
   likeKwet(kwetId: string) {
