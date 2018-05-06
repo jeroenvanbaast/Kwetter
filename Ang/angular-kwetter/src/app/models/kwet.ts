@@ -7,6 +7,7 @@ export class Kwet {
   placedDate: Date;
   message: string;
   flaged: boolean;
+  likes : number;
   hashTags: Hashtag[];
   tagged: Profile[];
 

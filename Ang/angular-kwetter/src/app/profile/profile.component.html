@@ -28,7 +28,7 @@
             <p><i class="fa fa-internet-explorer fa-fw w3-margin-right w3-text-theme"></i> {{profile.website}}</p>
             <div *ngIf="profile.id == userProfileId" class="w3-center">
               <button type="button" class="w3-button w3-theme" (click)="editModeChange()"><i class="fa fa-pencil"></i>
-                 edit
+                 Edit
               </button>
             </div>
           </div>
@@ -40,7 +40,7 @@
             <p><i class="fa fa-internet-explorer fa-fw w3-margin-right w3-text-theme"></i> <input
               [(ngModel)]="profile.website"></p>
             <button type="button" class="w3-button w3-theme" (click)="updateProfile()"><i class="fa fa-pencil"></i>
-               update
+               Update
             </button>
           </div>
           <div *ngIf="profile.id != userProfileId && userProfileId != null" class="w3-center">
@@ -101,6 +101,7 @@
                   *ngIf="userProfileId != null"><i
             class="fa fa-thumbs-up"></i>  Like
           </button>
+          <span class="w3-right w3-opacity">Likes: {{kwet.likes}}</span>
         </div>
       </div>
       <div *ngIf="profile.kwets.length == 0" style="font-size: xx-large">
