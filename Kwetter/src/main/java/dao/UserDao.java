@@ -21,9 +21,13 @@ public abstract class UserDao extends AbstractDao<User> {
     }
 
     public User checkLogin(String userName, String password) {
-        return entityManager.createNamedQuery("user.login", User.class)
+        List<User> users =  entityManager.createNamedQuery("user.login", User.class)
                 .setParameter("userName", userName)
-                .setParameter("password", password).getSingleResult();
+                .setParameter("password", password).getResultList();
+        if(users != null && users.size() != 0){
+            return users.get(0);
+        }
+        return null;
     }
     
     public User findByProfile(Profile profile){

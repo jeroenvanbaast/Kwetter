@@ -19,7 +19,7 @@ export class ProfileService {
     return this.http.get<Profile[]>(this.url + 'getfollowers/' + profileId);
   }
 
-  updateProfile(profileId : string, profileName : string, bio : string , location : string, website : string, picture : string) : Observable<Profile>{
+  updateProfile(profileName : string, bio : string , location : string, website : string, picture : string) : Observable<Profile>{
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     }).set('AUTHORIZATION', 'Bearer ' + localStorage.getItem('token'));
@@ -33,8 +33,7 @@ export class ProfileService {
       headers,
       params
     };
-    console.log(this.url + profileId);
-    return this.http.post<Profile>(this.url + profileId,null,options);
+    return this.http.post<Profile>(this.url + 'update', null, options);
   }
 
   follow(currentUserProfileId : string, profileId : string) : Observable<Profile>{
@@ -60,7 +59,7 @@ export class ProfileService {
       headers,
       params
     };
-  return this.http.post(this.url+ currentUserProfileId + '/heart/' , null,options);
+  return this.http.post(this.url + currentUserProfileId + '/heart/' , null,options);
   }
 
 

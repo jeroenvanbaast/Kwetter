@@ -8,6 +8,7 @@ package boundary.rest;
 import domain.Kwet;
 import domain.Profile;
 import domain.User;
+import io.jsonwebtoken.Jwts;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -23,6 +24,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import jwt.JWTTokenNeeded;
+import jwt.KeyGenerator;
 import service.KwetService;
 import service.ProfileService;
 import service.UserService;
@@ -41,7 +43,9 @@ public class ProfileResource {
     private KwetService kwetService;
     @Inject
     private UserService userService;
-
+   @Inject
+    private KeyGenerator keyGenerator;
+   
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Profile> getAll() {
@@ -82,9 +86,12 @@ public class ProfileResource {
     }
 
     @POST
-    @Path("{id}")
+    @Path("update")
     @JWTTokenNeeded
-    public Profile updateProfile(@PathParam("id") long id, @QueryParam("name") String name, @QueryParam("bio") String bio, @QueryParam("locatie") String locatie, @QueryParam("website") String website, @QueryParam("picture") String picture, @Context HttpHeaders headers) {
+    public Profile updateProfile( @QueryParam("name") String name, @QueryParam("bio") String bio, @QueryParam("locatie") String locatie, @QueryParam("website") String website, @QueryParam("picture") String picture, @Context HttpHeaders headers) {
+        String token = headers.getHeaderString("AUTHORIZATION").substring("Bearer".length()).trim();
+        String idString = Jwts.parser().setSigningKey(this.keyGenerator.generateKey()).parseClaimsJws(token).getBody().getSubject();
+        Long id = Long.valueOf(idString);
         Profile profile = service.getById(id);
         profile.setName(name);
         profile.setBio(bio);

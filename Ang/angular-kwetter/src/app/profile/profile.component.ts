@@ -81,7 +81,7 @@ export class ProfileComponent implements OnInit {
   }
 
   updateProfile() {
-    this.profileSerivce.updateProfile(String(this.profile.id), this.profile.name, this.profile.bio, this.profile.locatie, this.profile.website, this.profile.profilePicture).subscribe(data => {
+    this.profileSerivce.updateProfile(this.profile.name, this.profile.bio, this.profile.locatie, this.profile.website, this.profile.profilePicture).subscribe(data => {
       if (data != null) {
         this.profile = data;
       }
