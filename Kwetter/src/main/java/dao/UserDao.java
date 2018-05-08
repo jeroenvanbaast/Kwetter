@@ -5,23 +5,35 @@
  */
 package dao;
 
-import domain.Kwet;
+import domain.Profile;
 import domain.User;
 import java.util.List;
-import javax.ejb.Stateless;
 
 /**
  *
  * @author Jeroen
  */
-public abstract class UserDao extends AbstractDao<User>{
+public abstract class UserDao extends AbstractDao<User> {
 
-      
-     public User findByName(String userName){
-     return  entityManager.createNamedQuery("user.findByUserName", User.class)
-             .setParameter("userName", userName).getSingleResult();
-        
-     }   
-     
+    public User findByName(String userName) {
+        return entityManager.createNamedQuery("user.findByUserName", User.class)
+                .setParameter("userName", userName).getSingleResult();
+    }
+
+    public User checkLogin(String userName, String password) {
+        return entityManager.createNamedQuery("user.login", User.class)
+                .setParameter("userName", userName)
+                .setParameter("password", password).getSingleResult();
+    }
+    
+    public User findByProfile(Profile profile){
+          return entityManager.createNamedQuery("user.findByProfile", User.class)
+                .setParameter("profile", profile).getSingleResult();
+    }
+    
+    public List<User> findFollowers(Profile profile){
+        return entityManager.createNamedQuery("user.findFollowers", User.class)
+                .setParameter("profile", profile).getResultList();
+    }
 
 }

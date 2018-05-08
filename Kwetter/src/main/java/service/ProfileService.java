@@ -7,8 +7,11 @@ package service;
 
 import dao.ProfileDao;
 import domain.Profile;
+import domain.User;
 import java.util.ArrayList;
+import java.util.List;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.persistence.Query;
 
 /**
@@ -18,8 +21,19 @@ import javax.persistence.Query;
 @Stateless
 public class ProfileService extends ProfileDao {
 
+    @Inject
+    private UserService userService;
+    
     public ArrayList<Profile> getAll() {
         Query query = this.entityManager.createQuery("SELECT p FROM Profile p");
         return new ArrayList<>(query.getResultList());
+    }
+    
+    public List<Profile> getProfilesFromUsers(List<User> users){
+        ArrayList<Profile> profiles = new ArrayList();
+        for(User user : users){
+            profiles.add(user.getProfile());
+        }
+        return profiles;
     }
 }

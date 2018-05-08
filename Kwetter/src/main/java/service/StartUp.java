@@ -48,7 +48,9 @@ public class StartUp {
         User user = new User("root", "toor");
         Profile profile = new Profile("superadmin", "Super coole bio");
         user.setProfile(profile);
-
+        profile.setProfilePicture("https://i.imgur.com/LlF3EGCb.jpg");
+        profile.setLocatie("Tilburg");
+        profile.setWebsite("http://www.ishetaltijdvoorbier.nl/");
         user.setAccountType(admin);
         User henk = new User("Henk", "wachtwoord");
         henk.setProfile(new Profile("Henk", "Henk zijn bio"));
@@ -60,7 +62,7 @@ public class StartUp {
         this.userService.create(henk);
         this.userService.create(jan);
         this.profileService.create(profile);
-         Kwet kwet = new Kwet("Dit is een test kwet ****",profile);
+        Kwet kwet = new Kwet("Dit is een test kwet ****",profile);
         kwet.setFlagged(true);
         profile.placeKwet(kwet);
         this.kwetService.create(kwet);

@@ -7,6 +7,7 @@ package dao;
 
 import domain.Kwet;
 import domain.Profile;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
@@ -27,6 +28,11 @@ public abstract class KwetDao extends AbstractDao<Kwet> {
         return entityManager.createNamedQuery("kwet.getAllFlagged", Kwet.class)
                 .getResultList();
 
+    }
+    
+    @Override
+    public Kwet create(Kwet kwet){       
+        return super.create(kwet);
     }
 
 }

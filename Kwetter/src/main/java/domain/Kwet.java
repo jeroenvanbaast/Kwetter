@@ -30,7 +30,7 @@ public class Kwet implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private Profile profile;
+    private String profileName;
     private Date placedDate;
     private String message;
     private boolean flagged;
@@ -38,17 +38,28 @@ public class Kwet implements Serializable {
     private List<HashTag> hashTags;
     @ManyToMany()
     private List<Profile> tagged;
+    private int likes;
 
     public Kwet() {
         hashTags = new ArrayList();
         tagged = new ArrayList();
+        this.setPlacedDate(new Date());
     }
 
     public Kwet(String message, Profile profile) {
+        this();
         this.message = message;
-        this.profile = profile;
+        this.profileName = profile.getName();
         hashTags = new ArrayList();
         tagged = new ArrayList();
+    }
+    
+    public void Like(){
+        this.likes = likes + 1;
+    }
+    
+     public void UnLike(){
+        this.likes = likes - 1;
     }
 
     // <editor-fold defaultstate="collapsed" desc="getters en setters">
@@ -100,15 +111,20 @@ public class Kwet implements Serializable {
         this.flagged = flagged;
     }
 
-   public Profile getProfile() {
-        return profile;
+    public int getLikes() {
+        return likes;
     }
 
-    public void setProfile(Profile profile) {
-        this.profile = profile;
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
+    
+    public String getProfileName() {
+        return profileName;
     }
 
+    public void setProfileName(String profileName) {
+        this.profileName = profileName;
+    }
     // </editor-fold>
-
- 
 }

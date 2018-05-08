@@ -46,16 +46,19 @@ public class KwetResource {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Kwet getKwetById(@PathParam("id") long id) {
-        Kwet kwet = service.getById(id);
+    public Kwet getKwetById(@PathParam("id") String id) {
+        Kwet kwet = service.getById(Long.valueOf(id));
         return kwet;
     }
 
     @PUT
-    public void putKwet(@QueryParam("message") String message, @PathParam("profileId") long profileId) {
-        Profile profile = profileService.getById(profileId);
+    public Kwet putKwet(@QueryParam("message") String message, @QueryParam("profileId") String profileId) {     
+        Profile profile = profileService.getById(Long.valueOf(profileId));            
         Kwet kwet = new Kwet(message, profile);
+        profile.getKwets().add(kwet);
+        profileService.update(profile);
         service.create(kwet);
+        return kwet;
     }
 
     @POST

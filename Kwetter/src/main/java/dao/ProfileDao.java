@@ -14,5 +14,8 @@ import javax.ejb.Stateless;
  */
 public abstract class ProfileDao extends AbstractDao<Profile>{
 
-    
+    public Profile getByName(String name){
+                return entityManager.createNamedQuery("profile.findByName", Profile.class)
+                .setParameter("name", name).getSingleResult();
+    }
 }

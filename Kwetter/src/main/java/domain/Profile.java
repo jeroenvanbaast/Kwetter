@@ -5,6 +5,7 @@
  */
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -23,7 +26,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Jeroen
  */
 @Entity
-
+@NamedQueries({
+@NamedQuery(name = "profile.findByName", query = "SELECT p FROM Profile p WHERE p.name = :name")})
 @XmlRootElement
 public class Profile implements Serializable{
 
@@ -33,7 +37,7 @@ public class Profile implements Serializable{
     
     private String name;
     private Boolean publicName;
-    private File profilePicture;
+    private String profilePicture;
     private Boolean publicProfilePicture;
     private String bio;
     private Boolean publicBio;
@@ -46,13 +50,12 @@ public class Profile implements Serializable{
     private List<Kwet> kwets;
     @ManyToMany(mappedBy = "tagged", cascade = CascadeType.ALL)
     private List<Kwet> heartedKwets;
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Profile> following;
+  
     
     public Profile() {
         this.kwets = new ArrayList();
-        this.heartedKwets = new ArrayList();
-        this.following = new ArrayList();
+        this.heartedKwets = new ArrayList();       
+        this.profilePicture = "https://cdn2.iconfinder.com/data/icons/cute-boy-face/1000/cute_boy_face-04-512.png";
     }
     
     public Profile(String name, String bio){
@@ -64,14 +67,6 @@ public class Profile implements Serializable{
     public Kwet placeKwet(Kwet kwet) {
         this.kwets.add(kwet);
         return kwet;
-    }
-    
-    public void follow(Profile profile){
-        this.following.add(profile);
-    }
-    
-    public void unFollow(Profile profile){
-        this.following.remove(profile);
     }
     
     public void giveHearth(Kwet kwet){
@@ -103,11 +98,11 @@ public class Profile implements Serializable{
         this.name = name;
     }
 
-    public File getProfilePicture() {
+    public String getProfilePicture() {
         return profilePicture;
     }
 
-    public void setProfilePicture(File profilePicture) {
+    public void setProfilePicture(String profilePicture) {
         this.profilePicture = profilePicture;
     }
 
@@ -149,14 +144,6 @@ public class Profile implements Serializable{
 
     public void setHeartedKwets(List<Kwet> heartedKwets) {
         this.heartedKwets = heartedKwets;
-    }
-
-    public List<Profile> getFollowing() {
-        return following;
-    }
-
-    public void setFollowing(List<Profile> following) {
-        this.following = following;
     }
 
     public Boolean getPublicName() {

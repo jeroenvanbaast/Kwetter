@@ -7,16 +7,23 @@ package service;
 
 import dao.UserDao;
 import domain.User;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.ArrayList;
 import javax.ejb.Stateless;
 import javax.persistence.Query;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Date;
+import java.security.Key;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import javax.inject.Inject;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.DatatypeConverter;
+import jwt.KeyGenerator;
 
 /**
  *
@@ -25,9 +32,26 @@ import javax.xml.bind.DatatypeConverter;
 @Stateless
 public class UserService extends UserDao {
 
+    
+    @Context
+    private UriInfo uriInfo;
+    @Inject
+    private ProfileService profileService;
+    @Inject
+    private KeyGenerator keyGenerator;
+
     public ArrayList<User> getAll() {
         Query query = this.entityManager.createQuery("SELECT u FROM User u");
         return new ArrayList<>(query.getResultList());
+    }
+
+    public User login(String userName, String password) {
+        String passwordHash = encodeSHA256(password);
+        return super.checkLogin(userName, passwordHash);
+    }
+
+    public User findByProfileName(String name) {
+        return super.findByProfile(profileService.getByName(name));
     }
 
     /**
@@ -52,4 +76,20 @@ public class UserService extends UserDao {
         return "";
     }
 
+      public String issueToken(String login) {
+        Key key = keyGenerator.generateKey();
+        String jwtToken = Jwts.builder()
+                .setSubject(login)
+                .setIssuer(uriInfo.getAbsolutePath().toString())
+                .setIssuedAt(new Date())
+                .setExpiration(toDate(LocalDateTime.now().plusMinutes(60L)))
+                .signWith(SignatureAlgorithm.HS512, key)
+                .compact();
+          System.out.println(jwtToken);
+        return jwtToken;
+    }
+      
+        private Date toDate(LocalDateTime localDateTime) {
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
 }
