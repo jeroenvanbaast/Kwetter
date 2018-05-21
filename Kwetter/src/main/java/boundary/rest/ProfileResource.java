@@ -43,9 +43,9 @@ public class ProfileResource {
     private KwetService kwetService;
     @Inject
     private UserService userService;
-   @Inject
+    @Inject
     private KeyGenerator keyGenerator;
-   
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Profile> getAll() {
@@ -88,7 +88,7 @@ public class ProfileResource {
     @POST
     @Path("update")
     @JWTTokenNeeded
-    public Profile updateProfile( @QueryParam("name") String name, @QueryParam("bio") String bio, @QueryParam("locatie") String locatie, @QueryParam("website") String website, @QueryParam("picture") String picture, @Context HttpHeaders headers) {
+    public Profile updateProfile(@QueryParam("name") String name, @QueryParam("bio") String bio, @QueryParam("locatie") String locatie, @QueryParam("website") String website, @QueryParam("picture") String picture, @Context HttpHeaders headers) {
         String token = headers.getHeaderString("AUTHORIZATION").substring("Bearer".length()).trim();
         String idString = Jwts.parser().setSigningKey(this.keyGenerator.generateKey()).parseClaimsJws(token).getBody().getSubject();
         Long id = Long.valueOf(idString);
@@ -103,14 +103,21 @@ public class ProfileResource {
     }
 
     @DELETE
-    @Path("{id}")
-    public void deleteProfile(@PathParam("id") long id) {
+    @JWTTokenNeeded
+    public void deleteProfile(@Context HttpHeaders headers) {
+        String token = headers.getHeaderString("AUTHORIZATION").substring("Bearer".length()).trim();
+        String idString = Jwts.parser().setSigningKey(this.keyGenerator.generateKey()).parseClaimsJws(token).getBody().getSubject();
+        Long id = Long.valueOf(idString);
         service.remove(service.getById(id));
     }
 
     @POST
-    @Path("{id}/follow")
-    public User follow(@PathParam("id") int id, @QueryParam("followerid") int followerId) {
+    @Path("follow")
+    @JWTTokenNeeded
+    public User follow(@QueryParam("followerid") int followerId, @Context HttpHeaders headers) {
+        String token = headers.getHeaderString("AUTHORIZATION").substring("Bearer".length()).trim();
+        String idString = Jwts.parser().setSigningKey(this.keyGenerator.generateKey()).parseClaimsJws(token).getBody().getSubject();
+        Long id = Long.valueOf(idString);
         Profile profile = service.getById(id);
         User user = userService.findByProfile(profile);
         Profile toFollow = service.getById(followerId);
@@ -120,8 +127,12 @@ public class ProfileResource {
     }
 
     @POST
-    @Path("{id}/unfollow")
-    public User unFollow(@PathParam("id") int id, @QueryParam("followerid") int followerId) {
+    @Path("unfollow")
+    @JWTTokenNeeded
+    public User unFollow(@QueryParam("followerid") int followerId, @Context HttpHeaders headers) {
+        String token = headers.getHeaderString("AUTHORIZATION").substring("Bearer".length()).trim();
+        String idString = Jwts.parser().setSigningKey(this.keyGenerator.generateKey()).parseClaimsJws(token).getBody().getSubject();
+        Long id = Long.valueOf(idString);
         Profile profile = service.getById(id);
         User user = userService.findByProfile(profile);
         Profile follower = service.getById(followerId);
@@ -131,25 +142,37 @@ public class ProfileResource {
     }
 
     @POST
-    @Path("{id}/heart")
-    public void heart(@PathParam("id") int id, @QueryParam("kwetid") int kwetId) {
-        Kwet kwet = kwetService.getById(kwetId);
-        kwet.Like();
+    @Path("heart")
+    @JWTTokenNeeded
+    public void heart(@QueryParam("kwetid") int kwetId, @Context HttpHeaders headers) {
+        String token = headers.getHeaderString("AUTHORIZATION").substring("Bearer".length()).trim();
+        String idString = Jwts.parser().setSigningKey(this.keyGenerator.generateKey()).parseClaimsJws(token).getBody().getSubject();
+        Long id = Long.valueOf(idString);
         Profile profile = service.getById(id);
-        profile.getHeartedKwets().add(kwet);
-        kwetService.update(kwet);
-        service.update(profile);
+        Kwet kwet = kwetService.getById(kwetId);
+        if (!profile.getHeartedKwets().contains(kwet)) {
+            kwet.Like();
+            profile.getHeartedKwets().add(kwet);
+            kwetService.update(kwet);
+            service.update(profile);
+        }
     }
 
     @DELETE
-    @Path("{id}/heart")
-    public void unHeart(@PathParam("id") int id, @QueryParam("kwetid") int kwetId) {
-        Kwet kwet = kwetService.getById(kwetId);
-        kwet.UnLike();
+    @Path("heart")
+    @JWTTokenNeeded
+    public void unHeart(@QueryParam("kwetid") int kwetId, @Context HttpHeaders headers) {
+        String token = headers.getHeaderString("AUTHORIZATION").substring("Bearer".length()).trim();
+        String idString = Jwts.parser().setSigningKey(this.keyGenerator.generateKey()).parseClaimsJws(token).getBody().getSubject();
+        Long id = Long.valueOf(idString);
         Profile profile = service.getById(id);
-        profile.getHeartedKwets().remove(kwet);
-        kwetService.update(kwet);
-        service.update(profile);
+        Kwet kwet = kwetService.getById(kwetId);
+        if (profile.getHeartedKwets().contains(kwet)) {
+            kwet.UnLike();
+            profile.getHeartedKwets().remove(kwet);
+            kwetService.update(kwet);
+            service.update(profile);
+        }
     }
 
     @GET

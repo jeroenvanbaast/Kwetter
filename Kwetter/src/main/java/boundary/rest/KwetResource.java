@@ -8,6 +8,7 @@ package boundary.rest;
 import domain.Kwet;
 import domain.Profile;
 import helper.ResourceUriBuilder;
+import io.jsonwebtoken.Jwts;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -23,10 +24,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
+import jwt.JWTTokenNeeded;
+import jwt.KeyGenerator;
 import service.KwetService;
 import service.ProfileService;
 
@@ -44,6 +48,8 @@ public class KwetResource {
     private KwetService service;
     @Inject
     private ProfileService profileService;
+    @Inject
+    private KeyGenerator keyGenerator;
 
     @Context
     UriInfo uriInfo;
@@ -76,8 +82,12 @@ public class KwetResource {
     }
 
     @PUT
-    public Kwet putKwet(@QueryParam("message") String message, @QueryParam("profileId") String profileId) {
-        Profile profile = profileService.getById(Long.valueOf(profileId));
+    @JWTTokenNeeded
+    public Kwet putKwet(@QueryParam("message") String message, @Context HttpHeaders headers) {
+        String token = headers.getHeaderString("AUTHORIZATION").substring("Bearer".length()).trim();
+        String idString = Jwts.parser().setSigningKey(this.keyGenerator.generateKey()).parseClaimsJws(token).getBody().getSubject();
+        Long id = Long.valueOf(idString);
+        Profile profile = profileService.getById(id);
         Kwet kwet = new Kwet(message, profile);
         profile.getKwets().add(kwet);
         profileService.update(profile);
@@ -87,15 +97,30 @@ public class KwetResource {
 
     @POST
     @Path("{id}")
-    public void updateKwet(@PathParam("id") long id, @QueryParam("message") String message) {
+    @JWTTokenNeeded
+    public void updateKwet(@PathParam("id") long id, @QueryParam("message") String message, @Context HttpHeaders headers) {
+        String token = headers.getHeaderString("AUTHORIZATION").substring("Bearer".length()).trim();
+        String idString = Jwts.parser().setSigningKey(this.keyGenerator.generateKey()).parseClaimsJws(token).getBody().getSubject();
+        Long profileId = Long.valueOf(idString);
+        Profile profile = profileService.getById(profileId);
         Kwet kwet = service.getById(id);
-        kwet.setMessage(message);
-        service.update(kwet);
+        if (profile.getKwets().contains(kwet)) {
+            kwet.setMessage(message);
+            service.update(kwet);
+        }
     }
 
     @DELETE
     @Path("{id}")
-    public void deleteKwet(@PathParam("id") long id) {
-        service.remove(service.getById(id));
+    @JWTTokenNeeded
+    public void deleteKwet(@PathParam("id") long id, @Context HttpHeaders headers) {
+        String token = headers.getHeaderString("AUTHORIZATION").substring("Bearer".length()).trim();
+        String idString = Jwts.parser().setSigningKey(this.keyGenerator.generateKey()).parseClaimsJws(token).getBody().getSubject();
+        Long profileId = Long.valueOf(idString);
+        Profile profile = profileService.getById(profileId);
+        Kwet kwet = service.getById(id);
+        if (profile.getKwets().contains(kwet)) {
+            service.remove(kwet);
+        }
     }
 }

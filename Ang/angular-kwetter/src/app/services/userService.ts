@@ -1,7 +1,7 @@
 import {User} from './../Models/user';
-import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs/Observable";
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class UserService {
@@ -10,7 +10,7 @@ export class UserService {
   constructor(private http: HttpClient) {
   }
 
-  getUserByProfileName(profileName: string) : Observable<User> {
+  getUserByProfileName(profileName: string): Observable<User> {
     return this.http.get<User>(this.url + 'byprofilename/' + profileName);
   }
 }

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {LoginService} from "../services/loginService";
-import {Router} from "@angular/router";
+import {LoginService} from '../services/loginService';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -20,12 +20,11 @@ export class LoginComponent implements OnInit {
 
   Login() {
     this.loginService.Login(this.username, this.password).subscribe(data => {
-      if(data != null){
+      if (data != null) {
         localStorage.setItem('userPorfileId', String(data.profile.id));
         localStorage.setItem('profileName', String(data.profile.name));
         localStorage.setItem('token', data.token);
         this.router.navigate(['/profile', data.profile.name]);
-        console.log(data.token);
       }
     });
   }
