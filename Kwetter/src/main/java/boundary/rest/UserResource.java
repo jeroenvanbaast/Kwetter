@@ -5,10 +5,15 @@
  */
 package boundary.rest;
 
+import domain.Kwet;
 import domain.User;
+import helper.ResourceUriBuilder;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
 import static javax.ws.rs.core.Response.Status.NOT_FOUND;
 import static javax.ws.rs.core.Response.Status.UNAUTHORIZED;
 import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
@@ -19,8 +24,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import service.UserService;
 
 /**
@@ -32,18 +39,36 @@ import service.UserService;
 public class UserResource {
 
     @Inject
+    ResourceUriBuilder resourceUriBuilder;
+    @Inject
     private UserService service;
+
+    @Context
+    UriInfo uriInfo;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<User> getAll() {
-        return service.getAll();
+    public JsonArray getAll() {
+        JsonArrayBuilder list = Json.createArrayBuilder();
+        List<User> all = service.getAll();
+        all.stream()
+                .map(m -> m.toJson(
+                resourceUriBuilder.createResourceUri(
+                        KwetResource.class,
+                        "getById",
+                        m.getId(),
+                        uriInfo
+                )
+        )
+                )
+                .forEach(list::add);
+        return list.build();
     }
 
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public User getUser(@PathParam("id") long id) {
+    public User getById(@PathParam("id") long id) {
         User user = service.getById(id);
         return user;
     }

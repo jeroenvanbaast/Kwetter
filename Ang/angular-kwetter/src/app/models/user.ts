@@ -1,11 +1,11 @@
 import {Profile} from './profile';
-import {AccountType} from './accounttype'
+import {AccountType} from './accounttype';
 
 export class User {
   id: number;
   userName: string;
   following: Profile[];
-  token : string;
+  token: string;
   profile: Profile;
   accountType: AccountType;
 

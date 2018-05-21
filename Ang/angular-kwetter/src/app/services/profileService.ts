@@ -1,8 +1,9 @@
 import {Profile} from './../Models/profile';
 import {Kwet} from './../Models/kwet';
-import {Injectable} from "@angular/core";
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
-import {Observable} from "rxjs/Observable";
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import {User} from '../models/user';
 
 @Injectable()
 export class ProfileService {
@@ -11,15 +12,15 @@ export class ProfileService {
   constructor(private http: HttpClient) {
   }
 
-  getPorfile(username : string) : Observable<Profile>{
+  getPorfile(username: string): Observable<Profile> {
     return this.http.get<Profile>(this.url + 'byname/' + username);
   }
 
-  getFollowers(profileId : string) : Observable<Profile[]>{
+  getFollowers(profileId: string): Observable<Profile[]> {
     return this.http.get<Profile[]>(this.url + 'getfollowers/' + profileId);
   }
 
-  updateProfile(profileName : string, bio : string , location : string, website : string, picture : string) : Observable<Profile>{
+  updateProfile(profileName: string, bio: string, location: string, website: string, picture: string): Observable<Profile> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     }).set('AUTHORIZATION', 'Bearer ' + localStorage.getItem('token'));
@@ -36,7 +37,7 @@ export class ProfileService {
     return this.http.post<Profile>(this.url + 'update', null, options);
   }
 
-  follow(currentUserProfileId : string, profileId : string) : Observable<Profile>{
+  follow(currentUserProfileId: string, profileId: string): Observable<User> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -46,10 +47,24 @@ export class ProfileService {
       headers,
       params
     };
-    return this.http.post<Profile>(this.url + currentUserProfileId + '/follow', null, options);
+    return this.http.post<User>(this.url + currentUserProfileId + '/follow', null, options);
   }
 
-  likeKwet(currentUserProfileId : string, kwetId : string){
+  unfollow(currentUserProfileId: string, profileId: string): Observable<User> {
+    console.log(currentUserProfileId + ' and ' + profileId);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+    const params = new HttpParams()
+      .set('followerid', profileId);
+    const options = {
+      headers,
+      params
+    };
+    return this.http.post<User>(this.url + currentUserProfileId + '/unfollow', null, options);
+  }
+
+  likeKwet(currentUserProfileId: string, kwetId: string) {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
@@ -59,7 +74,7 @@ export class ProfileService {
       headers,
       params
     };
-  return this.http.post(this.url + currentUserProfileId + '/heart/' , null,options);
+    return this.http.post(this.url + currentUserProfileId + '/heart/', null, options);
   }
 
 

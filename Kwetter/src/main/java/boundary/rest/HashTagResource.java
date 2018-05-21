@@ -41,7 +41,7 @@ public class HashTagResource {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public HashTag getHashTag(@PathParam("id") long id) {
+    public HashTag getById(@PathParam("id") long id) {
         HashTag hashTag = service.getById(id);
         return hashTag;
     }

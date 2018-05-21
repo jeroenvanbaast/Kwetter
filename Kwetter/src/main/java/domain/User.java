@@ -7,11 +7,16 @@ package domain;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -25,6 +30,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import service.UserService;
 
 /**
@@ -46,8 +52,10 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    
+    @Column(unique=true)
     private String userName;
+    @XmlTransient
     private String passwordHash;
     @OneToOne(cascade = CascadeType.ALL)
     private Profile profile;
@@ -61,6 +69,7 @@ public class User implements Serializable {
     private String token;
 
     public User() {
+        this.token = "";
         this.following = new ArrayList();
         this.profile = new Profile();
     }
@@ -148,6 +157,26 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return userName + " accountType=" + accountType;
+    }
+    
+     public JsonObject toJson(URI self) {
+        return Json.createObjectBuilder()
+                .add("userName", this.userName)     
+                .add("profile", this.profile.toJson())
+                .add("following", fillFollowers())
+                .add("token", this.token)
+                .add("_links", Json.createObjectBuilder()
+                        .add("rel", "self")
+                        .add("href", self.toString()))
+                .build();
+    }
+     
+        public JsonArrayBuilder fillFollowers(){
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        for(Profile profile : following){
+        jsonArrayBuilder.add(profile.toJson());
+        }
+        return jsonArrayBuilder;
     }
 
 }

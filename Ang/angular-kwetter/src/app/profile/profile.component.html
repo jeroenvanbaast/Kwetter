@@ -43,8 +43,12 @@
                Update
             </button>
           </div>
-          <div *ngIf="profile.id != userProfileId && userProfileId != null" class="w3-center">
+          <div *ngIf="profile.id != userProfileId && userProfileId != null && !following" class="w3-center">
             <button type="button" class="w3-button w3-theme" (click)="follow()"><i class="fa fa-user-plus"></i>  Follow
+            </button>
+          </div>
+          <div *ngIf="profile.id != userProfileId && userProfileId != null && following" class="w3-center">
+            <button type="button" class="w3-button w3-theme" (click)="unfollow()"><i class="fa fa-user-plus"></i>  Unfollow
             </button>
           </div>
 

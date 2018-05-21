@@ -8,8 +8,13 @@ package domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.File;
 import java.io.Serializable;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonValue;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,14 +32,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @NamedQueries({
-@NamedQuery(name = "profile.findByName", query = "SELECT p FROM Profile p WHERE p.name = :name")})
+    @NamedQuery(name = "profile.findByName", query = "SELECT p FROM Profile p WHERE p.name = :name")})
 @XmlRootElement
-public class Profile implements Serializable{
+public class Profile implements Serializable {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    
+
     private String name;
     private Boolean publicName;
     private String profilePicture;
@@ -45,42 +50,74 @@ public class Profile implements Serializable{
     private Boolean publicLocatie;
     private String website;
     private Boolean publicWebsite;
-    
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Kwet> kwets;
     @ManyToMany(mappedBy = "tagged", cascade = CascadeType.ALL)
     private List<Kwet> heartedKwets;
-  
-    
+
     public Profile() {
         this.kwets = new ArrayList();
-        this.heartedKwets = new ArrayList();       
+        this.heartedKwets = new ArrayList();
         this.profilePicture = "https://cdn2.iconfinder.com/data/icons/cute-boy-face/1000/cute_boy_face-04-512.png";
     }
-    
-    public Profile(String name, String bio){
+
+    public Profile(String name, String bio) {
         this();
         this.name = name;
-        this.bio = bio;        
+        this.bio = bio;
     }
 
     public Kwet placeKwet(Kwet kwet) {
         this.kwets.add(kwet);
         return kwet;
     }
-    
-    public void giveHearth(Kwet kwet){
+
+    public void giveHearth(Kwet kwet) {
         this.heartedKwets.add(kwet);
     }
 
-    public void unGiveHearth(Kwet kwet){
+    public void unGiveHearth(Kwet kwet) {
         this.heartedKwets.remove(kwet);
     }
-    
-    public void removeKwet(Kwet kwet){
+
+    public void removeKwet(Kwet kwet) {
         this.kwets.remove(kwet);
     }
-    
+
+    public JsonObject toJson(URI self) {
+        return Json.createObjectBuilder()
+                .add("name", this.name)
+                .add("profilePicture", this.profilePicture)
+                .add("bio", this.bio)
+                .add("locatie", this.locatie)
+                .add("website", this.website)
+                .add("kwets", Kwets(this.kwets))
+                .add("heartedKwets", Kwets(this.heartedKwets))
+                .add("_links", Json.createObjectBuilder()
+                        .add("rel", "self")
+                        .add("href", self.toString()))
+                .build();
+    }
+
+    public JsonObject toJson() {
+        return Json.createObjectBuilder()
+                .add("name", this.name)
+                .add("profilePicture", this.profilePicture)
+                .add("bio", this.bio)
+                .add("locatie", this.locatie)
+                .add("website", this.website)
+                .build();
+    }
+
+    public JsonArrayBuilder Kwets(List<Kwet> kwets) {
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        for (Kwet kwet : kwets) {
+            jsonArrayBuilder.add(kwet.toJson());
+        }
+        return jsonArrayBuilder;
+    }
+
     // <editor-fold defaultstate="collapsed" desc="getters en setters">
     public long getId() {
         return id;

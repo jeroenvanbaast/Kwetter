@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Profile} from '../models/profile'
+import {Profile} from '../models/profile';
 import {User} from '../models/user';
-import {ProfileService} from "../services/profileService";
-import {KwetService} from "../services/kwetService";
-import {ActivatedRoute, Router} from "@angular/router";
-import {UserService} from "../services/userService";
+import {ProfileService} from '../services/profileService';
+import {KwetService} from '../services/kwetService';
+import {ActivatedRoute, Router} from '@angular/router';
+import {UserService} from '../services/userService';
 
 @Component({
   selector: 'app-profile',
@@ -19,8 +19,10 @@ export class ProfileComponent implements OnInit {
   userProfileId: string;
   editMode: boolean;
   message: string;
+  following: boolean;
 
-  constructor(private route: ActivatedRoute, private profileSerivce: ProfileService, private userService: UserService, private kwetService: KwetService, private router: Router) {
+  constructor(private route: ActivatedRoute, private profileSerivce: ProfileService, private userService: UserService,
+              private kwetService: KwetService, private router: Router) {
 
   }
 
@@ -29,23 +31,27 @@ export class ProfileComponent implements OnInit {
       this.userName = params['username'];
     });
     if (this.userName == null) {
-      this.userName = localStorage.getItem('profileName')
+      this.userName = localStorage.getItem('profileName');
     }
     this.getinfo(this.userName);
     this.userProfileId = localStorage.getItem('userPorfileId');
   }
 
   getinfo(name: string) {
-    var id: string;
+    let id: string;
     this.profileSerivce.getPorfile(name).subscribe(data => {
       if (data != null) {
         this.profile = data;
         id = String(data.id);
-        this.profileSerivce.getFollowers(String(id)).subscribe((data => {
-          if (data != null) {
-            this.followers = data;
+        this.profileSerivce.getFollowers(String(id)).subscribe((output => {
+          if (output != null) {
+            this.followers = output;
+            for (const profile of output) {
+              if (profile.id.toString() === this.userProfileId) {
+              this.following = true;
+            }}
           }
-        }))
+        }));
       }
     });
     this.userService.getUserByProfileName(name).subscribe(data => {
@@ -65,9 +71,19 @@ export class ProfileComponent implements OnInit {
   }
 
   follow() {
-    this.profileSerivce.follow(this.userProfileId, String(this.profile.id)).subscribe( data =>{
+    this.profileSerivce.follow(this.userProfileId, String(this.profile.id)).subscribe(data => {
       if (data != null) {
-        this.profile = (data);
+        // this.followers.push(data.following);
+        this.following = true;
+      }
+    });
+  }
+
+  unfollow() {
+    this.profileSerivce.unfollow(this.userProfileId, String(this.profile.id)).subscribe(data => {
+      if (data != null) {
+        // this.followers.push(data.following);
+        this.following = false;
       }
     });
   }
@@ -81,7 +97,8 @@ export class ProfileComponent implements OnInit {
   }
 
   updateProfile() {
-    this.profileSerivce.updateProfile(this.profile.name, this.profile.bio, this.profile.locatie, this.profile.website, this.profile.profilePicture).subscribe(data => {
+    this.profileSerivce.updateProfile(this.profile.name, this.profile.bio, this.profile.locatie, this.profile.website,
+      this.profile.profilePicture).subscribe(data => {
       if (data != null) {
         this.profile = data;
       }

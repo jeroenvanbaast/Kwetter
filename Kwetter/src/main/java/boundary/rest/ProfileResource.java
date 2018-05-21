@@ -55,7 +55,7 @@ public class ProfileResource {
     @GET
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Profile getProfile(@PathParam("id") long id) {
+    public Profile getById(@PathParam("id") long id) {
         Profile profile = service.getById(id);
         return profile;
     }
@@ -110,23 +110,24 @@ public class ProfileResource {
 
     @POST
     @Path("{id}/follow")
-    public Profile follow(@PathParam("id") int id, @QueryParam("followerid") int followerId) {
+    public User follow(@PathParam("id") int id, @QueryParam("followerid") int followerId) {
         Profile profile = service.getById(id);
         User user = userService.findByProfile(profile);
         Profile toFollow = service.getById(followerId);
         user.getFollowing().add(toFollow);
         userService.update(user);
-        return toFollow;
+        return user;
     }
 
-    @DELETE
-    @Path("{id}/follow")
-    public void unFollow(@PathParam("id") int id, @QueryParam("followerId") int followerId) {
+    @POST
+    @Path("{id}/unfollow")
+    public User unFollow(@PathParam("id") int id, @QueryParam("followerid") int followerId) {
         Profile profile = service.getById(id);
         User user = userService.findByProfile(profile);
         Profile follower = service.getById(followerId);
         user.getFollowing().remove(follower);
         userService.update(user);
+        return user;
     }
 
     @POST
