@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package boundary.rest;
 
 import domain.Kwet;
@@ -153,9 +154,12 @@ public class ProfileResource {
         if (!profile.getHeartedKwets().contains(kwet)) {
             kwet.Like();
             profile.getHeartedKwets().add(kwet);
-            kwetService.update(kwet);
-            service.update(profile);
+        } else {
+            kwet.UnLike();
+            profile.getHeartedKwets().remove(kwet);
         }
+        kwetService.update(kwet);
+        service.update(profile);
     }
 
     @DELETE

@@ -73,7 +73,7 @@ export class ProfileComponent implements OnInit {
   follow() {
     this.profileSerivce.follow(this.userProfileId, String(this.profile.id)).subscribe(data => {
       if (data != null) {
-        // this.followers.push(data.following);
+        this.followers = data.following;
         this.following = true;
       }
     });
@@ -82,7 +82,7 @@ export class ProfileComponent implements OnInit {
   unfollow() {
     this.profileSerivce.unfollow(this.userProfileId, String(this.profile.id)).subscribe(data => {
       if (data != null) {
-        // this.followers.push(data.following);
+        this.followers = data.following;
         this.following = false;
       }
     });

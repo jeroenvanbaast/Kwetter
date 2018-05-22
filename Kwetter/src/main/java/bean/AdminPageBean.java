@@ -11,8 +11,9 @@ import domain.User;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.SessionScoped;
-import javax.faces.bean.ViewScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
@@ -42,6 +43,7 @@ public class AdminPageBean implements Serializable {
     private List<AccountType> accountTypes;
     private List<Kwet> flaggedKwets;
     private List<User> users;
+    private AccountType selectedAccountType;
 
     @PostConstruct
     public void init() {
@@ -58,10 +60,41 @@ public class AdminPageBean implements Serializable {
         System.out.println(event);
     }
 
-    public void save(){
-        this.userService.update(selectedUser);
+    public void makeAdmin() {
+        if (isSelectedUserValid()) {
+            for (AccountType accType : this.accountTypes) {
+                if (accType.getName().equalsIgnoreCase("admin")) {
+                    this.selectedUser.setAccountType(accType);
+                    this.userService.update(selectedUser);
+                }
+            }
+        }
     }
-    
+
+    public void makeUser() {
+        if (isSelectedUserValid()) {
+            for (AccountType accType : this.accountTypes) {
+                if (accType.getName().equalsIgnoreCase("users")) {
+                    this.selectedUser.setAccountType(accType);
+                    this.userService.update(selectedUser);
+                }
+            }
+        }
+    }
+
+    public Boolean isSelectedUserValid() {
+        if (this.selectedUser == null) {
+            addMessage("Error", "Kies een gebruiker");
+            return false;
+        }
+        return true;
+    }
+
+    public void addMessage(String title, String message) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(title,message));
+    }
+
     public void onRowSelect(SelectEvent event) {
         RequestContext context = RequestContext.getCurrentInstance();
         context.execute("PF('dlg1').show();");
@@ -100,4 +133,13 @@ public class AdminPageBean implements Serializable {
     public void setSelectedUser(User selectedUser) {
         this.selectedUser = selectedUser;
     }
+
+    public AccountType getSelectedAccountType() {
+        return selectedAccountType;
+    }
+
+    public void setSelectedAccountType(AccountType selectedAccountType) {
+        this.selectedAccountType = selectedAccountType;
+    }
+
 }

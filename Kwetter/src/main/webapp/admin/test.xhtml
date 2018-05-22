@@ -5,20 +5,18 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-
+<html  xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Admin page</title>
+        <title>test</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
         <h:form id="form">
-            <p:growl id="growl" showDetail="true" sticky="true" />  
-            
-            <p:dataTable id="usertable" var="item" value="#{adminPageBean.users}" selectionMode="single" selection="#{adminPageBean.selectedUser}" rowKey="#{item.id}">
-                <p:ajax event="rowSelect"/>
+            <p:dataTable id="singleDT" var="item" value="#{adminPageBean.users}" selectionMode="single" selection="#{adminPageBean.selectedUser}" rowKey="#{item.id}">
+                 <p:ajax event="rowSelect"/>
                 <f:facet name="header">
                     Users
                 </f:facet>
@@ -32,9 +30,9 @@ and open the template in the editor.
                     <h:outputText value="#{item.accountType}" />
                 </p:column>
             </p:dataTable>
-
-            <p:commandButton value="make admin" action="#{adminPageBean.makeAdmin()}" process="@this" update="form"/>
-            <p:commandButton value="make user" action="#{adminPageBean.makeUser()}" process="@this" update="form"/>
+            
+            <p:commandButton value="make admin" action="#{adminPageBean.makeAdmin()}" process="@this"/>
+            <p:commandButton value="make user" action="#{adminPageBean.makeUser()}" process="@this"/>
         </h:form>
     </h:body>
 </html>
