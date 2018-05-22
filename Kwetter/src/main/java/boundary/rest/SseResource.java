@@ -37,12 +37,13 @@
  * only if the new code is made subject to such option by the copyright
  * holder.
  */
-
 package boundary.rest;
 
+import domain.Kwet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.Stateless;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,6 +57,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.sse.Sse;
 import javax.ws.rs.sse.SseEventSink;
+import service.KwetService;
 
 /**
  *
@@ -64,6 +66,9 @@ import javax.ws.rs.sse.SseEventSink;
 @Path("sse")
 @Stateless
 public class SseResource {
+
+    @Inject
+    private KwetService kwetService;
 
     private static volatile SseEventSink eventSink = null;
 
@@ -97,9 +102,9 @@ public class SseResource {
         new Thread(() -> {
             try {
                 domainSink.send(sse.newEventBuilder()
-                                    .name("domain-progress")
-                                    .data(String.class, "starting domain " + id + " ...")
-                                    .build());
+                        .name("domain-progress")
+                        .data(String.class, "starting domain " + id + " ...")
+                        .build());
                 Thread.sleep(200);
                 domainSink.send(sse.newEventBuilder().name("domain-progress").data(String.class, "50%").build());
                 Thread.sleep(200);
@@ -114,6 +119,26 @@ public class SseResource {
 
             } catch (final InterruptedException e) {
                 e.printStackTrace();
+            }
+        }).start();
+    }
+
+    @POST
+    @Path("test/{id}")
+    @Produces(MediaType.SERVER_SENT_EVENTS)
+    public void test(@PathParam("id") final String id, @Context SseEventSink domainSink, @Context Sse sse) {
+        new Thread(() -> {
+            Kwet kwet = kwetService.getById(Long.valueOf(id));
+            domainSink.send(sse.newEventBuilder()
+                    .name("kwet")
+                    .data(Kwet.class, kwet)
+                    .build());
+            int count = kwetService.getAll().size();
+            for (;;) {
+                if (count != kwetService.getAll().size()) {                    
+                    domainSink.send(sse.newEventBuilder().name("kwet").data(Kwet.class, kwet).build());
+                    count++;
+                }
             }
         }).start();
     }
