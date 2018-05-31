@@ -6,6 +6,9 @@
 package boundary.rest;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
 import javax.websocket.OnMessage;
@@ -14,30 +17,39 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
-
 /**
  *
  * @author Jeroen
  */
 @ServerEndpoint("/sockets/{profilename}")
 public class websocketsResource {
-    
+
+    private static HashMap<String, List<Session>> sessions = new HashMap();
+
     @OnOpen
     public void onOpen(Session session, @PathParam("profilename") String profilename) {
-        System.out.println("Session opened, id: %s%n" +  session.getId());
+        System.out.println("Session opened, id: %s%n" + session.getId());
         try {
-            session.getBasicRemote().sendText("Hi there, we are successfully connected.");
+            session.getBasicRemote().sendText("Subscribed on " + profilename);
+            List<Session> sessionList = sessions.get(profilename);
+            if (sessionList == null) {
+                sessionList = new ArrayList();
+            }
+            sessionList.add(session);
+            sessions.put(profilename, sessionList);
+            System.out.println(sessions.get(profilename));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
 
     @OnMessage
-    public void onMessage(String message, Session session) {
-        System.out.println("Message received. Session id: %s Message: %s%n" +
-                session.getId() + message);
+    public void onMessage(String message, @PathParam("profilename") String profilename) {
+        System.out.println(message + " ontvangen van " + profilename);
         try {
-            session.getBasicRemote().sendText(message);
+            for (Session session : sessions.get(profilename)) {
+                session.getBasicRemote().sendText(profilename);
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -49,8 +61,10 @@ public class websocketsResource {
     }
 
     @OnClose
-    public void onClose(Session session) {
+    public void onClose(Session session, @PathParam("profilename") String profilename) {
+        List<Session> sessionList = sessions.get(profilename);
+        sessionList.remove(session);
+        sessions.put(profilename, sessionList);
         System.out.printf("Session closed with id: %s%n", session.getId());
     }
 }
-
