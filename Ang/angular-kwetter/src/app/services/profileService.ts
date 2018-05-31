@@ -4,6 +4,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {User} from '../models/user';
+import {Quote} from '@angular/compiler';
 
 @Injectable()
 export class ProfileService {
@@ -73,8 +74,10 @@ export class ProfileService {
       headers,
       params
     };
-    return this.http.post(this.url  + 'heart', null, options);
+    return this.http.post(this.url + 'heart', null, options);
   }
 
+  createEventSource(){
 
+  }
 }

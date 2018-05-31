@@ -4,6 +4,7 @@ import {Kwet} from '../models/kwet';
 import {Profile} from '../models/profile';
 import {Observable} from 'rxjs/Observable';
 import {DatePipe} from '@angular/common';
+import {Subscriber} from 'rxjs/Subscriber';
 
 @Injectable()
 export class KwetService {
@@ -17,12 +18,11 @@ export class KwetService {
       'Content-Type': 'application/json'
     }).set('AUTHORIZATION', 'Bearer ' + localStorage.getItem('token'));
     const params = new HttpParams()
-      .set('message', message)
+      .set('message', message);
     const options = {
       headers,
       params
     };
     return this.http.put<Kwet>(this.url, null, options);
   }
-
 }

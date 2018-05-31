@@ -33,6 +33,7 @@ import jwt.JWTTokenNeeded;
 import jwt.KeyGenerator;
 import service.KwetService;
 import service.ProfileService;
+import service.UserService;
 
 /**
  *
@@ -48,6 +49,8 @@ public class KwetResource {
     private KwetService service;
     @Inject
     private ProfileService profileService;
+    @Inject
+    private UserService userService;
     @Inject
     private KeyGenerator keyGenerator;
 
@@ -87,7 +90,7 @@ public class KwetResource {
         String token = headers.getHeaderString("AUTHORIZATION").substring("Bearer".length()).trim();
         String idString = Jwts.parser().setSigningKey(this.keyGenerator.generateKey()).parseClaimsJws(token).getBody().getSubject();
         Long id = Long.valueOf(idString);
-        Profile profile = profileService.getById(id);
+        Profile profile = userService.getById(id).getProfile();
         Kwet kwet = new Kwet(message, profile);
         profile.getKwets().add(kwet);
         profileService.update(profile);

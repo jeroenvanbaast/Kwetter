@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('profileName', String(data.profile.name));
         localStorage.setItem('token', data.token);
         this.router.navigate(['/profile', data.profile.name]);
+        console.log(data);
       }
     });
   }

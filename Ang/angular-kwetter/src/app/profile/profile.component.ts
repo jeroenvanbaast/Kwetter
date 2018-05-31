@@ -5,6 +5,7 @@ import {ProfileService} from '../services/profileService';
 import {KwetService} from '../services/kwetService';
 import {ActivatedRoute, Router} from '@angular/router';
 import {UserService} from '../services/userService';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-profile',
@@ -20,6 +21,7 @@ export class ProfileComponent implements OnInit {
   editMode: boolean;
   message: string;
   following: boolean;
+  private ws: WebSocket;
 
   constructor(private route: ActivatedRoute, private profileSerivce: ProfileService, private userService: UserService,
               private kwetService: KwetService, private router: Router) {
@@ -35,6 +37,7 @@ export class ProfileComponent implements OnInit {
     }
     this.getinfo(this.userName);
     this.userProfileId = localStorage.getItem('userPorfileId');
+    this.createObservableSocket('ws://localhost:8080/Kwetter/sockets/' + this.userName);
   }
 
   getinfo(name: string) {
@@ -48,8 +51,9 @@ export class ProfileComponent implements OnInit {
             this.followers = output;
             for (const profile of output) {
               if (profile.id.toString() === this.userProfileId) {
-              this.following = true;
-            }}
+                this.following = true;
+              }
+            }
           }
         }));
       }
@@ -63,6 +67,7 @@ export class ProfileComponent implements OnInit {
 
   sendKwet() {
     this.kwetService.sendKwet(this.profile, this.message).subscribe(data => {
+      this.send(this.message);
       if (data != null) {
         this.profile.kwets.push(data);
       }
@@ -109,5 +114,30 @@ export class ProfileComponent implements OnInit {
   goToProfile(name: string) {
     this.router.navigate(['/profile', name]);
     this.getinfo(name);
+  }
+
+  createObservableSocket(url: string) {
+    this.ws = new WebSocket(url);
+    this.SetWebsocket();
+  }
+
+  private SetWebsocket() {
+    this.ws.onopen = (event) => {
+      console.log('open');
+    };
+    this.ws.onerror = (event) => {
+      console.log(event);
+    };
+    this.ws.onmessage = (event) => {
+      this.profileSerivce.getPorfile(this.userName).subscribe(data => {
+        if (data != null) {
+          this.profile = data;
+        }
+      });
+    };
+  }
+
+  send(message: any) {
+    this.ws.send(JSON.stringify(message));
   }
 }
