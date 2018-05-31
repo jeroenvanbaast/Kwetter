@@ -35,6 +35,7 @@ export class ProfileComponent implements OnInit {
     }
     this.getinfo(this.userName);
     this.userProfileId = localStorage.getItem('userPorfileId');
+    this.kwetService.createObservableSocket('ws://localhost:8080/Kwetter/sockets/' + this.userName);
   }
 
   getinfo(name: string) {
